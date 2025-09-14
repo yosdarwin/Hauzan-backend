@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('car_rentals', function (Blueprint $table) {
+            $table->id();
+            $table->string('slug')->unique();
+            $table->string('title');
+            $table->string('price');
+            $table->string('duration');
+            $table->string('image');
+            $table->text('description');
+            $table->json('features'); // Array of features
+            $table->boolean('featured')->default(false);
+            $table->text('full_description');
+            $table->json('specifications'); // Object with engine, transmission, etc.
+            $table->json('features_detail'); // Array of detailed features
+            $table->json('included'); // Array of included items
+            $table->json('terms'); // Array of terms and conditions
+            $table->json('pricing'); // Array of pricing options
+            $table->boolean('is_active')->default(true);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('car_rentals');
+    }
+};

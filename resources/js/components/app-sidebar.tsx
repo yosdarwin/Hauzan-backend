@@ -5,7 +5,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, Car, Folder, Images, Info, LayoutGrid, MapPin, MessageSquareQuote } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -13,6 +13,31 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Home Sliders',
+        href: '/sliders',
+        icon: Images,
+    },
+    {
+        title: 'About',
+        href: '/about',
+        icon: Info,
+    },
+    {
+        title: 'Tour Packages',
+        href: '/tours',
+        icon: MapPin,
+    },
+    {
+        title: 'Car Rentals',
+        href: '/cars',
+        icon: Car,
+    },
+    {
+        title: 'Testimonials',
+        href: '/testimonials',
+        icon: MessageSquareQuote,
     },
 ];
 
