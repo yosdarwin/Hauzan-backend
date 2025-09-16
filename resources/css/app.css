@@ -144,3 +144,9 @@ button,
 a {
     @apply cursor-pointer;
 }
+label {
+    @apply mb-2 block;
+}
+.text-destructive {
+    @apply !text-red-500;
+}

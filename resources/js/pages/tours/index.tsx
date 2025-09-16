@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
@@ -27,7 +26,6 @@ interface Tour {
     duration: string;
     location: string;
     image: string;
-    is_active: boolean;
     created_at: string;
     updated_at: string;
 }
@@ -37,9 +35,9 @@ interface ToursIndexProps {
 }
 
 export default function ToursIndex({ tours }: ToursIndexProps) {
-    const handleDelete = (id: number) => {
+    const handleDelete = (slug: string) => {
         if (confirm('Are you sure you want to delete this tour package?')) {
-            router.delete(`/tours/${id}`);
+            router.delete(`/tours/${slug}`);
         }
     };
 
@@ -66,7 +64,7 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {tours.map((tour) => (
                             <Card key={tour.id} className="overflow-hidden">
-                                <div className="relative aspect-video overflow-hidden">
+                                <div className="relative -mt-6 aspect-video overflow-hidden">
                                     {tour.image ? (
                                         <img src={`/storage/${tour.image}`} alt={tour.title} className="h-full w-full object-cover" />
                                     ) : (
@@ -74,9 +72,6 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
                                             <MapPin className="h-12 w-12 text-muted-foreground" />
                                         </div>
                                     )}
-                                    <div className="absolute top-2 right-2">
-                                        <Badge variant={tour.is_active ? 'default' : 'secondary'}>{tour.is_active ? 'Active' : 'Inactive'}</Badge>
-                                    </div>
                                 </div>
                                 <CardHeader>
                                     <CardTitle className="line-clamp-1">{tour.title}</CardTitle>
@@ -89,7 +84,6 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
                                     </div>
                                     <div className="mb-4 flex items-center justify-between">
                                         <span className="text-2xl font-bold text-green-600">{tour.price}</span>
-                                        <span className="text-sm text-muted-foreground">/{tour.slug}</span>
                                     </div>
                                     <div className="flex gap-2">
                                         <Link href={`/tours/${tour.slug}`}>
@@ -107,7 +101,7 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
                                         <Button
                                             variant="outline"
                                             size="sm"
-                                            onClick={() => handleDelete(tour.id)}
+                                            onClick={() => handleDelete(tour.slug)}
                                             className="text-destructive hover:text-destructive"
                                         >
                                             <Trash2 className="mr-2 h-3 w-3" />

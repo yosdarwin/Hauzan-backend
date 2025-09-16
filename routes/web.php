@@ -65,11 +65,11 @@ Route::prefix('api')->group(function () {
     });
 
     Route::get('tours', function () {
-        return TourPackage::active()->get();
+        return TourPackage::all();
     });
 
     Route::get('tours/{slug}', function ($slug) {
-        return TourPackage::where('slug', $slug)->where('is_active', true)->firstOrFail();
+        return TourPackage::where('slug', $slug)->firstOrFail();
     });
 
     Route::get('cars', function () {

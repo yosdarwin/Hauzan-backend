@@ -1,12 +1,10 @@
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Car, Folder, Images, Info, LayoutGrid, MapPin, MessageSquareQuote } from 'lucide-react';
-import AppLogo from './app-logo';
+import { Car, Images, Info, LayoutGrid, MapPin, MessageSquareQuote } from 'lucide-react';
 
 const mainNavItems: NavItem[] = [
     {
@@ -41,19 +39,6 @@ const mainNavItems: NavItem[] = [
     },
 ];
 
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
-];
-
 export function AppSidebar() {
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -62,7 +47,7 @@ export function AppSidebar() {
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <Link href={dashboard()} prefetch>
-                                <AppLogo />
+                                <h1 className="text-2xl font-bold">HauzanTour</h1>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -74,7 +59,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

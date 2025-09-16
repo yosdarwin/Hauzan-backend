@@ -24,22 +24,15 @@ class TourPackage extends Model
         'itinerary',
         'included',
         'not_included',
-        'is_active',
     ];
 
     protected $casts = [
         'featured' => 'boolean',
-        'is_active' => 'boolean',
         'highlights' => 'array',
         'itinerary' => 'array',
         'included' => 'array',
         'not_included' => 'array',
     ];
-
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', true);
-    }
 
     public function scopeFeatured($query)
     {

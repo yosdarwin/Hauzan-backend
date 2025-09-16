@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
@@ -34,11 +33,11 @@ interface Tour {
     highlights: string[];
     itinerary: Array<{
         day: number;
-        title: string;
-        description: string;
+        time: string;
+        activity: string;
     }>;
     included: string[];
-    is_active: boolean;
+    not_included: string[];
     created_at: string;
     updated_at: string;
 }
@@ -76,11 +75,12 @@ export default function TourShow({ tour }: TourShowProps) {
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        <Link href={`/tours/${tour.slug}/edit`}>
-                            <Button variant="outline">
-                                <Edit className="mr-2 h-4 w-4" />
-                                Edit
-                            </Button>
+                        <Link 
+                            href={`/tours/${tour.slug}/edit`}
+                            className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                        >
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit
                         </Link>
                         <Button variant="destructive" onClick={handleDelete}>
                             <Trash2 className="mr-2 h-4 w-4" />
@@ -142,9 +142,9 @@ export default function TourShow({ tour }: TourShowProps) {
                                             <div key={index} className="border-l-2 border-primary pl-4">
                                                 <div className="mb-1 flex items-center gap-2">
                                                     <span className="text-sm font-medium text-primary">Day {item.day}</span>
-                                                    {item.title && <span className="font-medium">{item.title}</span>}
+                                                    {item.time && <span className="font-medium">{item.time}</span>}
                                                 </div>
-                                                {item.description && <p className="text-sm text-muted-foreground">{item.description}</p>}
+                                                {item.activity && <p className="text-sm text-muted-foreground">{item.activity}</p>}
                                             </div>
                                         ))}
                                     </div>
@@ -163,6 +163,25 @@ export default function TourShow({ tour }: TourShowProps) {
                                         {tour.included.map((item, index) => (
                                             <li key={index} className="flex items-start gap-2">
                                                 <div className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-500" />
+                                                <span>{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </CardContent>
+                            </Card>
+                        )}
+
+                        {/* What's Not Included */}
+                        {tour.not_included && Array.isArray(tour.not_included) && tour.not_included.length > 0 && (
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>What's Not Included</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <ul className="space-y-2">
+                                        {tour.not_included.map((item, index) => (
+                                            <li key={index} className="flex items-start gap-2">
+                                                <div className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-red-500" />
                                                 <span>{item}</span>
                                             </li>
                                         ))}
@@ -213,10 +232,6 @@ export default function TourShow({ tour }: TourShowProps) {
                                 <div>
                                     <p className="text-sm text-muted-foreground">URL Slug</p>
                                     <p className="font-mono text-sm">{tour.slug}</p>
-                                </div>
-                                <div>
-                                    <p className="text-sm text-muted-foreground">Status</p>
-                                    <Badge variant={tour.is_active ? 'default' : 'secondary'}>{tour.is_active ? 'Active' : 'Inactive'}</Badge>
                                 </div>
                                 <div>
                                     <p className="text-sm text-muted-foreground">Created</p>

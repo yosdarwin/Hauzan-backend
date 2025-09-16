@@ -391,7 +391,7 @@ export default function AboutEdit({ about }: AboutEditProps) {
                                                         const newMissions = data.missions.filter((_, i) => i !== index);
                                                         setData('missions', newMissions);
                                                     }}
-                                                    className="mt-0 h-10 w-10 text-destructive text-orange-400 hover:text-destructive"
+                                                    className="mt-0 h-10 w-10 text-orange-400 hover:text-destructive"
                                                 >
                                                     <Trash className="h-4 w-4" />
                                                 </Button>

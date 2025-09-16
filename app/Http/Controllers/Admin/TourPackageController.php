@@ -39,11 +39,12 @@ class TourPackageController extends Controller
             'highlights.*' => 'nullable|string',
             'itinerary' => 'nullable|array',
             'itinerary.*.day' => 'nullable|integer',
-            'itinerary.*.title' => 'nullable|string',
-            'itinerary.*.description' => 'nullable|string',
+            'itinerary.*.time' => 'nullable|string',
+            'itinerary.*.activity' => 'nullable|string',
             'included' => 'nullable|array',
             'included.*' => 'nullable|string',
-            'is_active' => 'boolean',
+            'not_included' => 'nullable|array',
+            'not_included.*' => 'nullable|string',
         ]);
 
         // Auto-generate slug from title if not provided
@@ -66,9 +67,8 @@ class TourPackageController extends Controller
             $validated['image'] = $imagePath;
         }
 
-        // Handle boolean fields
-        $validated['is_active'] = $request->has('is_active');
-        $validated['featured'] = false; // Default value
+        // Set default value for featured
+        $validated['featured'] = false;
 
         // Filter out empty arrays and let model casting handle JSON conversion
         if (empty($validated['highlights']) || (count($validated['highlights']) === 1 && empty($validated['highlights'][0]))) {
@@ -77,12 +77,12 @@ class TourPackageController extends Controller
         if (empty($validated['included']) || (count($validated['included']) === 1 && empty($validated['included'][0]))) {
             $validated['included'] = [];
         }
+        if (empty($validated['not_included']) || (count($validated['not_included']) === 1 && empty($validated['not_included'][0]))) {
+            $validated['not_included'] = [];
+        }
         if (empty($validated['itinerary'])) {
             $validated['itinerary'] = [];
         }
-
-        // Set default for not_included (model casting will handle JSON conversion)
-        $validated['not_included'] = [];
 
         TourPackage::create($validated);
 
@@ -119,11 +119,12 @@ class TourPackageController extends Controller
             'highlights.*' => 'nullable|string',
             'itinerary' => 'nullable|array',
             'itinerary.*.day' => 'nullable|integer',
-            'itinerary.*.title' => 'nullable|string',
-            'itinerary.*.description' => 'nullable|string',
+            'itinerary.*.time' => 'nullable|string',
+            'itinerary.*.activity' => 'nullable|string',
             'included' => 'nullable|array',
             'included.*' => 'nullable|string',
-            'is_active' => 'boolean',
+            'not_included' => 'nullable|array',
+            'not_included.*' => 'nullable|string',
         ]);
 
         // Auto-generate slug from title if not provided
@@ -153,9 +154,8 @@ class TourPackageController extends Controller
             unset($validated['image']);
         }
 
-        // Handle boolean fields
-        $validated['is_active'] = $request->has('is_active');
-        $validated['featured'] = false; // Default value
+        // Set default value for featured
+        $validated['featured'] = false;
 
         // Filter out empty arrays and let model casting handle JSON conversion
         if (empty($validated['highlights']) || (count($validated['highlights']) === 1 && empty($validated['highlights'][0]))) {
@@ -164,12 +164,12 @@ class TourPackageController extends Controller
         if (empty($validated['included']) || (count($validated['included']) === 1 && empty($validated['included'][0]))) {
             $validated['included'] = [];
         }
+        if (empty($validated['not_included']) || (count($validated['not_included']) === 1 && empty($validated['not_included'][0]))) {
+            $validated['not_included'] = [];
+        }
         if (empty($validated['itinerary'])) {
             $validated['itinerary'] = [];
         }
-
-        // Set default for not_included (model casting will handle JSON conversion)
-        $validated['not_included'] = [];
 
         $tour->update($validated);
 
