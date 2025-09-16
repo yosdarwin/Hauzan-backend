@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AboutContent;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class AboutController extends Controller
@@ -40,19 +39,9 @@ class AboutController extends Controller
             'vision' => 'required|string',
             'missions' => 'required|array',
             'missions.*' => 'required|string',
-            'hero_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         $about = AboutContent::first();
-
-        if ($request->hasFile('hero_image')) {
-            // Delete old image
-            if ($about && $about->hero_image) {
-                Storage::disk('public')->delete($about->hero_image);
-            }
-            $imagePath = $request->file('hero_image')->store('about', 'public');
-            $validated['hero_image'] = $imagePath;
-        }
 
         if ($about) {
             $about->update($validated);

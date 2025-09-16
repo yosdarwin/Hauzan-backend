@@ -63,7 +63,7 @@ export default function SlidersIndex({ sliders }: SlidersIndexProps) {
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {sliders.map((slider) => (
                             <Card key={slider.id} className="overflow-hidden">
-                                <div className="relative aspect-video overflow-hidden">
+                                <div className="relative -mt-6 aspect-video overflow-hidden">
                                     {slider.image ? (
                                         <img src={`/storage/${slider.image}`} alt={slider.title} className="h-full w-full object-cover" />
                                     ) : (

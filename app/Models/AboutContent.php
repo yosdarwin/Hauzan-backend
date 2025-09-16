@@ -20,7 +20,6 @@ class AboutContent extends Model
         'social_media',
         'vision',
         'missions',
-        'hero_image',
     ];
 
     protected $casts = [
