@@ -1,10 +1,11 @@
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { Edit, Eye, Image, Plus, Trash2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -50,11 +51,12 @@ export default function SlidersIndex({ sliders }: SlidersIndexProps) {
                         <h1 className="text-3xl font-bold">Home Sliders</h1>
                         <p className="text-muted-foreground">Manage your website's home page sliders</p>
                     </div>
-                    <Link href="/sliders/create">
-                        <Button>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add New Slider
-                        </Button>
+                    <Link 
+                        href="/sliders/create"
+                        className={cn(buttonVariants())}
+                    >
+                        <Plus className="mr-2 h-4 w-4" />
+                        Add New Slider
                     </Link>
                 </div>
 
@@ -81,17 +83,19 @@ export default function SlidersIndex({ sliders }: SlidersIndexProps) {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="align-center flex flex-col gap-2 xl:flex-row">
-                                        <Link href={`/sliders/${slider.id}`}>
-                                            <Button variant="outline" size="sm" className="w-full xl:w-auto">
-                                                <Eye className="mr-2 h-3 w-3" />
-                                                View
-                                            </Button>
+                                        <Link 
+                                            href={`/sliders/${slider.id}`}
+                                            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "w-full xl:w-auto")}
+                                        >
+                                            <Eye className="mr-2 h-3 w-3" />
+                                            View
                                         </Link>
-                                        <Link href={`/sliders/${slider.id}/edit`}>
-                                            <Button variant="outline" size="sm" className="w-full xl:w-auto">
-                                                <Edit className="mr-2 h-3 w-3" />
-                                                Edit
-                                            </Button>
+                                        <Link 
+                                            href={`/sliders/${slider.id}/edit`}
+                                            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "w-full xl:w-auto")}
+                                        >
+                                            <Edit className="mr-2 h-3 w-3" />
+                                            Edit
                                         </Link>
                                         <Button
                                             variant="outline"
@@ -112,11 +116,12 @@ export default function SlidersIndex({ sliders }: SlidersIndexProps) {
                         <Image className="mb-4 h-16 w-16 text-muted-foreground" />
                         <CardTitle className="mb-2">No sliders found</CardTitle>
                         <CardDescription className="mb-4">Get started by creating your first slider</CardDescription>
-                        <Link href="/sliders/create">
-                            <Button>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add First Slider
-                            </Button>
+                        <Link 
+                            href="/sliders/create"
+                            className={cn(buttonVariants())}
+                        >
+                            <Plus className="mr-2 h-4 w-4" />
+                            Add First Slider
                         </Link>
                     </Card>
                 )}

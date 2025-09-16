@@ -30,11 +30,10 @@ class CarRentalController extends Controller
             'title' => 'required|string|max:255',
             'price' => 'required|string|max:255',
             'duration' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'description' => 'required|string',
             'features' => 'required|array',
             'features.*' => 'required|string',
-            'featured' => 'boolean',
             'full_description' => 'required|string',
             'specifications' => 'required|array',
             'features_detail' => 'required|array',
@@ -47,16 +46,12 @@ class CarRentalController extends Controller
             'pricing.*.duration' => 'required|string',
             'pricing.*.price' => 'required|string',
             'pricing.*.note' => 'required|string',
-            'is_active' => 'boolean',
         ]);
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('cars', 'public');
             $validated['image'] = $imagePath;
         }
-
-        $validated['featured'] = $request->has('featured');
-        $validated['is_active'] = $request->has('is_active');
 
         CarRental::create($validated);
 
@@ -85,11 +80,10 @@ class CarRentalController extends Controller
             'title' => 'required|string|max:255',
             'price' => 'required|string|max:255',
             'duration' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'description' => 'required|string',
             'features' => 'required|array',
             'features.*' => 'required|string',
-            'featured' => 'boolean',
             'full_description' => 'required|string',
             'specifications' => 'required|array',
             'features_detail' => 'required|array',
@@ -102,7 +96,6 @@ class CarRentalController extends Controller
             'pricing.*.duration' => 'required|string',
             'pricing.*.price' => 'required|string',
             'pricing.*.note' => 'required|string',
-            'is_active' => 'boolean',
         ]);
 
         if ($request->hasFile('image')) {
@@ -113,9 +106,6 @@ class CarRentalController extends Controller
             $imagePath = $request->file('image')->store('cars', 'public');
             $validated['image'] = $imagePath;
         }
-
-        $validated['featured'] = $request->has('featured');
-        $validated['is_active'] = $request->has('is_active');
 
         $car->update($validated);
 

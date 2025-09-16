@@ -1,9 +1,10 @@
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { Edit, Eye, MapPin, Plus, Trash2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -51,11 +52,12 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
                         <h1 className="text-3xl font-bold">Tour Packages</h1>
                         <p className="text-muted-foreground">Manage your tour packages and destinations</p>
                     </div>
-                    <Link href="/tours/create">
-                        <Button>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add New Tour
-                        </Button>
+                    <Link 
+                        href="/tours/create"
+                        className={cn(buttonVariants())}
+                    >
+                        <Plus className="mr-2 h-4 w-4" />
+                        Add New Tour
                     </Link>
                 </div>
 
@@ -85,18 +87,20 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
                                     <div className="mb-4 flex items-center justify-between">
                                         <span className="text-2xl font-bold text-green-600">{tour.price}</span>
                                     </div>
-                                    <div className="flex gap-2">
-                                        <Link href={`/tours/${tour.slug}`}>
-                                            <Button variant="outline" size="sm">
-                                                <Eye className="mr-2 h-3 w-3" />
-                                                View
-                                            </Button>
+                                    <div className="flex flex-col gap-2 xl:flex-row">
+                                        <Link 
+                                            href={`/tours/${tour.slug}`}
+                                            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "w-full xl:w-auto")}
+                                        >
+                                            <Eye className="mr-2 h-3 w-3" />
+                                            View
                                         </Link>
-                                        <Link href={`/tours/${tour.slug}/edit`}>
-                                            <Button variant="outline" size="sm">
-                                                <Edit className="mr-2 h-3 w-3" />
-                                                Edit
-                                            </Button>
+                                        <Link 
+                                            href={`/tours/${tour.slug}/edit`}
+                                            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "w-full xl:w-auto")}
+                                        >
+                                            <Edit className="mr-2 h-3 w-3" />
+                                            Edit
                                         </Link>
                                         <Button
                                             variant="outline"
@@ -117,11 +121,12 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
                         <MapPin className="mb-4 h-16 w-16 text-muted-foreground" />
                         <CardTitle className="mb-2">No tour packages found</CardTitle>
                         <CardDescription className="mb-4">Get started by creating your first tour package</CardDescription>
-                        <Link href="/tours/create">
-                            <Button>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add First Tour
-                            </Button>
+                        <Link 
+                            href="/tours/create"
+                            className={cn(buttonVariants())}
+                        >
+                            <Plus className="mr-2 h-4 w-4" />
+                            Add First Tour
                         </Link>
                     </Card>
                 )}

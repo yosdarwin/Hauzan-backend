@@ -3,8 +3,9 @@ import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Plus, Edit, Eye, Image, Car, MapPin, MessageSquare, FileText } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -117,29 +118,33 @@ export default function Dashboard({
                             <CardDescription>Create new content quickly</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-2">
-                            <Link href="/sliders/create">
-                                <Button variant="outline" className="w-full justify-start">
-                                    <Plus className="mr-2 h-4 w-4 text-blue-600" />
-                                    Add New Slider
-                                </Button>
+                            <Link 
+                                href="/sliders/create"
+                                className={cn(({ variant: "outline" }), "w-full justify-start")}
+                            >
+                                <Plus className="mr-2 h-4 w-4 text-blue-600" />
+                                Add New Slider
                             </Link>
-                            <Link href="/tours/create">
-                                <Button variant="outline" className="w-full justify-start">
-                                    <Plus className="mr-2 h-4 w-4 text-green-600" />
-                                    Add New Tour
-                                </Button>
+                            <Link 
+                                href="/tours/create"
+                                className={cn(buttonVariants({ variant: "outline" }), "w-full justify-start")}
+                            >
+                                <Plus className="mr-2 h-4 w-4 text-green-600" />
+                                Add New Tour
                             </Link>
-                            <Link href="/cars/create">
-                                <Button variant="outline" className="w-full justify-start">
-                                    <Plus className="mr-2 h-4 w-4 text-cyan-600" />
-                                    Add New Car
-                                </Button>
+                            <Link 
+                                href="/cars/create"
+                                className={cn(buttonVariants({ variant: "outline" }), "w-full justify-start")}
+                            >
+                                <Plus className="mr-2 h-4 w-4 text-cyan-600" />
+                                Add New Car
                             </Link>
-                            <Link href="/testimonials/create">
-                                <Button variant="outline" className="w-full justify-start">
-                                    <Plus className="mr-2 h-4 w-4 text-yellow-600" />
-                                    Add New Testimonial
-                                </Button>
+                            <Link 
+                                href="/testimonials/create"
+                                className={cn(buttonVariants({ variant: "outline" }), "w-full justify-start")}
+                            >
+                                <Plus className="mr-2 h-4 w-4 text-yellow-600" />
+                                Add New Testimonial
                             </Link>
                         </CardContent>
                     </Card>
@@ -154,49 +159,53 @@ export default function Dashboard({
                             <CardDescription>Manage existing content</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-2">
-                            <Link href="/sliders">
-                                <Button variant="outline" className="w-full justify-between">
-                                    <span className="flex items-center">
-                                        <Image className="mr-2 h-4 w-4 text-blue-600" />
-                                        Manage Sliders
-                                    </span>
-                                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
-                                        {sliders_count}
-                                    </span>
-                                </Button>
+                            <Link 
+                                href="/sliders"
+                                className={cn(buttonVariants({ variant: "outline" }), "w-full justify-between")}
+                            >
+                                <span className="flex items-center">
+                                    <Image className="mr-2 h-4 w-4 text-blue-600" />
+                                    Manage Sliders
+                                </span>
+                                <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
+                                    {sliders_count}
+                                </span>
                             </Link>
-                            <Link href="/tours">
-                                <Button variant="outline" className="w-full justify-between">
-                                    <span className="flex items-center">
-                                        <MapPin className="mr-2 h-4 w-4 text-green-600" />
-                                        Manage Tours
-                                    </span>
-                                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">
-                                        {tours_count}
-                                    </span>
-                                </Button>
+                            <Link 
+                                href="/tours"
+                                className={cn(buttonVariants({ variant: "outline" }), "w-full justify-between")}
+                            >
+                                <span className="flex items-center">
+                                    <MapPin className="mr-2 h-4 w-4 text-green-600" />
+                                    Manage Tours
+                                </span>
+                                <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">
+                                    {tours_count}
+                                </span>
                             </Link>
-                            <Link href="/cars">
-                                <Button variant="outline" className="w-full justify-between">
-                                    <span className="flex items-center">
-                                        <Car className="mr-2 h-4 w-4 text-cyan-600" />
-                                        Manage Cars
-                                    </span>
-                                    <span className="bg-cyan-100 text-cyan-800 px-2 py-1 rounded-full text-xs">
-                                        {cars_count}
-                                    </span>
-                                </Button>
+                            <Link 
+                                href="/cars"
+                                className={cn(buttonVariants({ variant: "outline" }), "w-full justify-between")}
+                            >
+                                <span className="flex items-center">
+                                    <Car className="mr-2 h-4 w-4 text-cyan-600" />
+                                    Manage Cars
+                                </span>
+                                <span className="bg-cyan-100 text-cyan-800 px-2 py-1 rounded-full text-xs">
+                                    {cars_count}
+                                </span>
                             </Link>
-                            <Link href="/testimonials">
-                                <Button variant="outline" className="w-full justify-between">
-                                    <span className="flex items-center">
-                                        <MessageSquare className="mr-2 h-4 w-4 text-yellow-600" />
-                                        Manage Testimonials
-                                    </span>
-                                    <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">
-                                        {testimonials_count}
-                                    </span>
-                                </Button>
+                            <Link 
+                                href="/testimonials"
+                                className={cn(buttonVariants({ variant: "outline" }), "w-full justify-between")}
+                            >
+                                <span className="flex items-center">
+                                    <MessageSquare className="mr-2 h-4 w-4 text-yellow-600" />
+                                    Manage Testimonials
+                                </span>
+                                <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">
+                                    {testimonials_count}
+                                </span>
                             </Link>
                         </CardContent>
                     </Card>

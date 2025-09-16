@@ -2,9 +2,10 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Edit, Trash2, ExternalLink } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -55,17 +56,19 @@ export default function SliderShow({ slider }: SliderShowProps) {
                         <p className="text-muted-foreground">View slider details</p>
                     </div>
                     <div className="flex gap-2">
-                        <Link href={`/sliders/${slider.id}/edit`}>
-                            <Button>
-                                <Edit className="mr-2 h-4 w-4" />
-                                Edit Slider
-                            </Button>
+                        <Link 
+                            href={`/sliders/${slider.id}/edit`}
+                            className={cn(buttonVariants())}
+                        >
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit Slider
                         </Link>
-                        <Link href="/sliders">
-                            <Button variant="outline">
-                                <ArrowLeft className="mr-2 h-4 w-4" />
-                                Back to List
-                            </Button>
+                        <Link 
+                            href="/sliders"
+                            className={cn(buttonVariants({ variant: "outline" }))}
+                        >
+                            <ArrowLeft className="mr-2 h-4 w-4" />
+                            Back to List
                         </Link>
                     </div>
                 </div>
@@ -157,11 +160,12 @@ export default function SliderShow({ slider }: SliderShowProps) {
                                 <CardTitle>Actions</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-2">
-                                <Link href={`/sliders/${slider.id}/edit`} className="block">
-                                    <Button variant="outline" className="w-full">
-                                        <Edit className="mr-2 h-4 w-4" />
-                                        Edit Slider
-                                    </Button>
+                                <Link 
+                                    href={`/sliders/${slider.id}/edit`} 
+                                    className={cn(buttonVariants({ variant: "outline", className: "w-full" }))}
+                                >
+                                    <Edit className="mr-2 h-4 w-4" />
+                                    Edit Slider
                                 </Link>
                                 <Button
                                     variant="outline"
