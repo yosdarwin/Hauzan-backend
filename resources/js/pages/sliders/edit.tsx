@@ -31,7 +31,6 @@ interface Slider {
     image: string;
     button_text: string;
     button_link: string;
-    order: number;
     is_active: boolean;
     created_at: string;
     updated_at: string;
@@ -48,7 +47,6 @@ export default function SliderEdit({ slider }: SliderEditProps) {
         image: null as File | null,
         button_text: slider.button_text || '',
         button_link: slider.button_link || '',
-        order: slider.order || 1,
         is_active: slider.is_active || false,
         _method: 'PUT',
     });
@@ -146,22 +144,6 @@ export default function SliderEdit({ slider }: SliderEditProps) {
                                             />
                                             {errors.button_link && (
                                                 <p className="text-sm text-destructive">{errors.button_link}</p>
-                                            )}
-                                        </div>
-
-                                        {/* Order */}
-                                        <div className="space-y-2">
-                                            <Label htmlFor="order">Display Order</Label>
-                                            <Input
-                                                id="order"
-                                                type="number"
-                                                min="1"
-                                                value={data.order}
-                                                onChange={(e) => setData('order', parseInt(e.target.value) || 1)}
-                                                className={errors.order ? 'border-destructive' : ''}
-                                            />
-                                            {errors.order && (
-                                                <p className="text-sm text-destructive">{errors.order}</p>
                                             )}
                                         </div>
 

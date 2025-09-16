@@ -28,7 +28,6 @@ interface Slider {
     image: string;
     button_text: string;
     button_link: string;
-    order: number;
     is_active: boolean;
     created_at: string;
     updated_at: string;
@@ -129,11 +128,6 @@ export default function SliderShow({ slider }: SliderShowProps) {
                                             {slider.is_active ? "Active" : "Inactive"}
                                         </Badge>
                                     </div>
-                                </div>
-
-                                <div>
-                                    <label className="text-sm font-medium text-muted-foreground">Display Order</label>
-                                    <p className="mt-1 font-medium">{slider.order}</p>
                                 </div>
 
                                 <div>

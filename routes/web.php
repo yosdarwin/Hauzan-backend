@@ -57,7 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // API Routes for React App
 Route::prefix('api')->group(function () {
     Route::get('sliders', function () {
-        return Slider::active()->ordered()->get();
+        return Slider::active()->get();
     });
 
     Route::get('about', function () {

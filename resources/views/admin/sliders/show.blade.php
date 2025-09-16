@@ -69,15 +69,6 @@
 
                 <div class="row mb-3">
                     <div class="col-sm-3">
-                        <strong>Order:</strong>
-                    </div>
-                    <div class="col-sm-9">
-                        {{ $slider->order }}
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-sm-3">
                         <strong>Status:</strong>
                     </div>
                     <div class="col-sm-9">

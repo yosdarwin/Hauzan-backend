@@ -68,15 +68,6 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="order" class="form-label">Order <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control @error('order') is-invalid @enderror"
-                               id="order" name="order" value="{{ old('order', $slider->order) }}" min="0" required>
-                        @error('order')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1"
                                    {{ old('is_active', $slider->is_active) ? 'checked' : '' }}>

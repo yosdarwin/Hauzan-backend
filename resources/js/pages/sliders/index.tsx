@@ -1,10 +1,10 @@
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Plus, Edit, Eye, Trash2, Image } from 'lucide-react';
+import { Edit, Eye, Image, Plus, Trash2 } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -24,7 +24,6 @@ interface Slider {
     image: string;
     button_text: string;
     button_link: string;
-    order: number;
     is_active: boolean;
     created_at: string;
     updated_at: string;
@@ -64,44 +63,32 @@ export default function SlidersIndex({ sliders }: SlidersIndexProps) {
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {sliders.map((slider) => (
                             <Card key={slider.id} className="overflow-hidden">
-                                <div className="aspect-video relative overflow-hidden">
+                                <div className="relative aspect-video overflow-hidden">
                                     {slider.image ? (
-                                        <img
-                                            src={`/storage/${slider.image}`}
-                                            alt={slider.title}
-                                            className="object-cover w-full h-full"
-                                        />
+                                        <img src={`/storage/${slider.image}`} alt={slider.title} className="h-full w-full object-cover" />
                                     ) : (
-                                        <div className="flex items-center justify-center h-full bg-muted">
+                                        <div className="flex h-full items-center justify-center bg-muted">
                                             <Image className="h-12 w-12 text-muted-foreground" />
                                         </div>
                                     )}
                                     <div className="absolute top-2 right-2">
-                                        <Badge variant={slider.is_active ? "default" : "secondary"}>
-                                            {slider.is_active ? "Active" : "Inactive"}
-                                        </Badge>
+                                        <Badge variant={slider.is_active ? 'default' : 'secondary'}>{slider.is_active ? 'Active' : 'Inactive'}</Badge>
                                     </div>
                                 </div>
                                 <CardHeader>
                                     <CardTitle className="line-clamp-1">{slider.title}</CardTitle>
-                                    <CardDescription className="line-clamp-2">
-                                        {slider.subtitle}
-                                    </CardDescription>
+                                    <CardDescription className="line-clamp-2">{slider.subtitle}</CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-                                        <span>Order: {slider.order}</span>
-                                        <span>Button: {slider.button_text}</span>
-                                    </div>
-                                    <div className="flex gap-2">
+                                    <div className="align-center flex flex-col gap-2 xl:flex-row">
                                         <Link href={`/sliders/${slider.id}`}>
-                                            <Button variant="outline" size="sm">
+                                            <Button variant="outline" size="sm" className="w-full xl:w-auto">
                                                 <Eye className="mr-2 h-3 w-3" />
                                                 View
                                             </Button>
                                         </Link>
                                         <Link href={`/sliders/${slider.id}/edit`}>
-                                            <Button variant="outline" size="sm">
+                                            <Button variant="outline" size="sm" className="w-full xl:w-auto">
                                                 <Edit className="mr-2 h-3 w-3" />
                                                 Edit
                                             </Button>
@@ -122,11 +109,9 @@ export default function SlidersIndex({ sliders }: SlidersIndexProps) {
                     </div>
                 ) : (
                     <Card className="flex flex-col items-center justify-center py-16">
-                        <Image className="h-16 w-16 text-muted-foreground mb-4" />
+                        <Image className="mb-4 h-16 w-16 text-muted-foreground" />
                         <CardTitle className="mb-2">No sliders found</CardTitle>
-                        <CardDescription className="mb-4">
-                            Get started by creating your first slider
-                        </CardDescription>
+                        <CardDescription className="mb-4">Get started by creating your first slider</CardDescription>
                         <Link href="/sliders/create">
                             <Button>
                                 <Plus className="mr-2 h-4 w-4" />

@@ -20,7 +20,6 @@
                         <tr>
                             <th>Image</th>
                             <th>Title</th>
-                            <th>Order</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -37,7 +36,6 @@
                                 <strong>{{ $slider->title }}</strong><br>
                                 <small class="text-muted">{{ Str::limit($slider->subtitle, 50) }}</small>
                             </td>
-                            <td>{{ $slider->order }}</td>
                             <td>
                                 @if($slider->is_active)
                                     <span class="badge bg-success">Active</span>

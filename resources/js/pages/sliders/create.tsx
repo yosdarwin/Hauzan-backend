@@ -31,7 +31,6 @@ export default function SliderCreate() {
         image: null as File | null,
         button_text: '',
         button_link: '',
-        order: 1,
         is_active: true,
     });
 
@@ -126,22 +125,6 @@ export default function SliderCreate() {
                                     />
                                     {errors.button_link && (
                                         <p className="text-sm text-destructive">{errors.button_link}</p>
-                                    )}
-                                </div>
-
-                                {/* Order */}
-                                <div className="space-y-2">
-                                    <Label htmlFor="order">Display Order</Label>
-                                    <Input
-                                        id="order"
-                                        type="number"
-                                        min="1"
-                                        value={data.order}
-                                        onChange={(e) => setData('order', parseInt(e.target.value) || 1)}
-                                        className={errors.order ? 'border-destructive' : ''}
-                                    />
-                                    {errors.order && (
-                                        <p className="text-sm text-destructive">{errors.order}</p>
                                     )}
                                 </div>
 

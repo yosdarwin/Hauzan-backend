@@ -15,7 +15,6 @@ return new class extends Migration
             $table->string('background_image');
             $table->string('button_text')->default('Lihat Details');
             $table->string('button_link')->nullable();
-            $table->integer('order')->default(0);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

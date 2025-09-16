@@ -12,7 +12,7 @@ class SliderController extends Controller
 {
     public function index()
     {
-        $sliders = Slider::ordered()->get();
+        $sliders = Slider::all();
         return Inertia::render('sliders/index', [
             'sliders' => $sliders
         ]);
@@ -28,8 +28,7 @@ class SliderController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'subtitle' => 'nullable|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'order' => 'nullable|integer|min:0',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:5120',
             'is_active' => 'boolean',
         ]);
 
@@ -38,7 +37,6 @@ class SliderController extends Controller
         }
 
         $validated['is_active'] = $request->has('is_active');
-        $validated['order'] = $validated['order'] ?? 0;
 
         Slider::create($validated);
 
@@ -65,8 +63,7 @@ class SliderController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'subtitle' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'order' => 'nullable|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'is_active' => 'boolean',
         ]);
 
@@ -78,7 +75,6 @@ class SliderController extends Controller
         }
 
         $validated['is_active'] = $request->has('is_active');
-        $validated['order'] = $validated['order'] ?? 0;
 
         $slider->update($validated);
 
@@ -98,4 +94,3 @@ class SliderController extends Controller
             ->with('success', 'Slider deleted successfully.');
     }
 }
-
