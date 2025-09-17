@@ -4,7 +4,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Car, Images, Info, LayoutGrid, MapPin, MessageSquareQuote } from 'lucide-react';
+import { Car, Images, Info, LayoutGrid, MapPin, MessageSquareQuote, ShoppingBag } from 'lucide-react';
 
 const mainNavItems: NavItem[] = [
     {
@@ -31,6 +31,11 @@ const mainNavItems: NavItem[] = [
         title: 'Car Rentals',
         href: '/cars',
         icon: Car,
+    },
+    {
+        title: 'Souvenirs',
+        href: '/souvenirs',
+        icon: ShoppingBag,
     },
     {
         title: 'Testimonials',

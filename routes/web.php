@@ -7,10 +7,12 @@ use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\TourPackageController;
 use App\Http\Controllers\Admin\CarRentalController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\SouvenirController;
 use App\Models\Slider;
 use App\Models\TourPackage;
 use App\Models\CarRental;
 use App\Models\Testimonial;
+use App\Models\Souvenir;
 
 Route::get('/', function () {
     return Inertia::render('auth/login');
@@ -22,6 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         $tours_count = TourPackage::count();
         $cars_count = CarRental::count();
         $testimonials_count = Testimonial::count();
+        $souvenirs_count = Souvenir::count();
         $recent_tours = TourPackage::latest()->limit(5)->get();
 
         return Inertia::render('dashboard', [
@@ -29,6 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'tours_count' => $tours_count,
             'cars_count' => $cars_count,
             'testimonials_count' => $testimonials_count,
+            'souvenirs_count' => $souvenirs_count,
             'recent_tours' => $recent_tours,
         ]);
     })->name('dashboard');
@@ -52,6 +56,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Testimonials CRUD
     Route::resource('testimonials', TestimonialController::class);
+
+    // Souvenirs CRUD
+    Route::resource('souvenirs', SouvenirController::class);
 });
 
 // API Routes for React App
@@ -82,6 +89,10 @@ Route::prefix('api')->group(function () {
 
     Route::get('testimonials', function () {
         return Testimonial::all();
+    });
+
+    Route::get('souvenirs', function () {
+        return Souvenir::all();
     });
 });
 
