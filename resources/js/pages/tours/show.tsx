@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { ArrowLeft, Clock, DollarSign, Edit, MapPin, Star, Trash2 } from 'lucide-react';
+import { ArrowLeft, Edit, Star, Trash2 } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -26,7 +26,7 @@ interface Tour {
     slug: string;
     description: string;
     full_description: string;
-    price: string;
+    price: number;
     duration: string;
     location: string;
     image: string;
@@ -200,21 +200,27 @@ export default function TourShow({ tour }: TourShowProps) {
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="flex items-center gap-3">
-                                    <DollarSign className="h-5 w-5 text-green-600" />
                                     <div>
                                         <p className="text-sm text-muted-foreground">Price</p>
-                                        <p className="font-semibold text-green-600">{tour.price}</p>
+                                        <p className="font-semibold text-green-600">
+                                            {new Intl.NumberFormat('id-ID', {
+                                                style: 'currency',
+                                                currency: 'IDR',
+                                                minimumFractionDigits: 0,
+                                                maximumFractionDigits: 0,
+                                            })
+                                                .format(tour.price)
+                                                .replace('Rp', 'Rp.')}
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <Clock className="h-5 w-5 text-blue-600" />
                                     <div>
                                         <p className="text-sm text-muted-foreground">Duration</p>
                                         <p className="font-semibold">{tour.duration}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <MapPin className="h-5 w-5 text-red-600" />
                                     <div>
                                         <p className="text-sm text-muted-foreground">Location</p>
                                         <p className="font-semibold">{tour.location}</p>

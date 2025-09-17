@@ -40,10 +40,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function SouvenirEdit({ souvenir }: SouvenirEditProps) {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-    const formatPrice = (price: number) => {
-        return `Rp ${Math.floor(price).toLocaleString('id-ID')}`;
-    };
-
     const { data, setData, processing, errors } = useForm({
         title: souvenir.name || '',
         short_desc: souvenir.description || '',
@@ -162,19 +158,19 @@ export default function SouvenirEdit({ souvenir }: SouvenirEditProps) {
                                     <Label htmlFor="price">Price (IDR) *</Label>
                                     <Input
                                         id="price"
-                                        type="text"
+                                        type="number"
                                         value={data.price}
                                         onChange={(e) => {
-                                            // Remove non-numeric characters except periods
-                                            const value = e.target.value.replace(/[^0-9.]/g, '');
-                                            setData('price', value);
+                                            // Remove decimal places and keep only whole numbers
+                                            const value = e.target.value;
+                                            const wholeNumber = Math.floor(parseFloat(value) || 0);
+                                            setData('price', wholeNumber.toString());
                                         }}
                                         className={errors.price ? 'border-red-500' : ''}
-                                        placeholder="Enter price (e.g., 237.000)"
+                                        placeholder="Enter price (e.g., 237000)"
+                                        step="1"
                                     />
-                                    <p className="mt-1 text-sm text-muted-foreground">
-                                        Current price: {formatPrice(souvenir.price)} | Format: 237.000 (use dots for thousands)
-                                    </p>
+
                                     {errors.price && <p className="text-sm text-red-500">{errors.price}</p>}
                                 </div>
 

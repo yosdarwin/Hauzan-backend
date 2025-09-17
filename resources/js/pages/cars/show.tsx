@@ -1,11 +1,10 @@
 import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Car, CheckCircle, Clock, DollarSign, Edit, FileText, Settings, Star } from 'lucide-react';
+import { ArrowLeft, Car, CheckCircle, Clock, Edit, FileText, Settings, Star } from 'lucide-react';
 
 interface CarRental {
     id: number;
@@ -13,7 +12,7 @@ interface CarRental {
     slug: string;
     description: string;
     full_description: string;
-    price: string;
+    price: number;
     duration: string;
     image: string;
     features: string[];
@@ -210,28 +209,23 @@ export default function CarShow({ car }: CarShowProps) {
                         {/* Basic Info */}
                         <Card>
                             <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <DollarSign className="h-5 w-5" />
-                                    Pricing Info
-                                </CardTitle>
+                                <CardTitle className="flex items-center gap-2">Pricing Info</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="rounded-lg bg-blue-50 p-4 text-center">
-                                    <div className="text-3xl font-bold text-blue-600">{car.price}</div>
+                                    <div className="text-3xl font-bold text-blue-600">
+                                        {new Intl.NumberFormat('id-ID', {
+                                            style: 'currency',
+                                            currency: 'IDR',
+                                            minimumFractionDigits: 0,
+                                            maximumFractionDigits: 0,
+                                        })
+                                            .format(car.price)
+                                            .replace('Rp', 'Rp.')}
+                                    </div>
                                     <div className="flex items-center justify-center gap-1 text-sm text-gray-600">
                                         <Clock className="h-4 w-4" />
                                         {car.duration}
-                                    </div>
-                                </div>
-                                <Separator />
-                                <div className="space-y-2">
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-600">Car ID:</span>
-                                        <span className="font-medium">#{car.id}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-600">Slug:</span>
-                                        <span className="font-medium">{car.slug}</span>
                                     </div>
                                 </div>
                             </CardContent>

@@ -1,11 +1,10 @@
-import { Badge } from '@/components/ui/badge';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
+import { cn } from '@/lib/utils';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { Edit, Eye, MessageSquare, Plus, Star, Trash2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -56,10 +55,7 @@ export default function TestimonialsIndex({ testimonials }: TestimonialsIndexPro
                         <h1 className="text-3xl font-bold">Testimonials</h1>
                         <p className="text-muted-foreground">Manage customer testimonials and reviews</p>
                     </div>
-                    <Link 
-                        href="/testimonials/create"
-                        className={cn(buttonVariants())}
-                    >
+                    <Link href="/testimonials/create" className={cn(buttonVariants())}>
                         <Plus className="mr-2 h-4 w-4" />
                         Add New Testimonial
                     </Link>
@@ -102,16 +98,16 @@ export default function TestimonialsIndex({ testimonials }: TestimonialsIndexPro
                                     <p className="mb-4 line-clamp-3 text-sm text-muted-foreground">"{testimonial.review}"</p>
 
                                     <div className="flex gap-2">
-                                        <Link 
+                                        <Link
                                             href={`/testimonials/${testimonial.id}`}
-                                            className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+                                            className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
                                         >
                                             <Eye className="mr-2 h-3 w-3" />
                                             View
                                         </Link>
-                                        <Link 
+                                        <Link
                                             href={`/testimonials/${testimonial.id}/edit`}
-                                            className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+                                            className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
                                         >
                                             <Edit className="mr-2 h-3 w-3" />
                                             Edit
@@ -135,10 +131,7 @@ export default function TestimonialsIndex({ testimonials }: TestimonialsIndexPro
                         <MessageSquare className="mb-4 h-16 w-16 text-muted-foreground" />
                         <CardTitle className="mb-2">No testimonials found</CardTitle>
                         <CardDescription className="mb-4">Get started by adding your first customer testimonial</CardDescription>
-                        <Link 
-                            href="/testimonials/create"
-                            className={cn(buttonVariants())}
-                        >
+                        <Link href="/testimonials/create" className={cn(buttonVariants())}>
                             <Plus className="mr-2 h-4 w-4" />
                             Add First Testimonial
                         </Link>

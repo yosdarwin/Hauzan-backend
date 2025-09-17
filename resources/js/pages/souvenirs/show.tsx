@@ -39,7 +39,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function SouvenirShow({ souvenir }: SouvenirShowProps) {
     const formatPrice = (price: number) => {
-        return `Rp ${Math.floor(price).toLocaleString('id-ID')}`;
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(price).replace('Rp', 'Rp.');
     };
 
     const formatDate = (dateString: string) => {

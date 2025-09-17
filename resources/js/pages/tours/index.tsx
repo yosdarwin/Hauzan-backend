@@ -1,10 +1,10 @@
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
+import { cn } from '@/lib/utils';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { Edit, Eye, MapPin, Plus, Trash2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -23,7 +23,7 @@ interface Tour {
     slug: string;
     description: string;
     full_description: string;
-    price: string;
+    price: number;
     duration: string;
     location: string;
     image: string;
@@ -52,10 +52,7 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
                         <h1 className="text-3xl font-bold">Tour Packages</h1>
                         <p className="text-muted-foreground">Manage your tour packages and destinations</p>
                     </div>
-                    <Link 
-                        href="/tours/create"
-                        className={cn(buttonVariants())}
-                    >
+                    <Link href="/tours/create" className={cn(buttonVariants())}>
                         <Plus className="mr-2 h-4 w-4" />
                         Add New Tour
                     </Link>
@@ -85,19 +82,26 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
                                         <span>{tour.duration}</span>
                                     </div>
                                     <div className="mb-4 flex items-center justify-between">
-                                        <span className="text-2xl font-bold text-green-600">{tour.price}</span>
+                                        <span className="text-2xl font-bold text-green-600">
+                                            {new Intl.NumberFormat('id-ID', {
+                                                style: 'currency',
+                                                currency: 'IDR',
+                                                minimumFractionDigits: 0,
+                                                maximumFractionDigits: 0,
+                                            }).format(Number(tour.price)).replace('Rp', 'Rp.')}
+                                        </span>
                                     </div>
                                     <div className="flex flex-col gap-2 xl:flex-row">
-                                        <Link 
+                                        <Link
                                             href={`/tours/${tour.slug}`}
-                                            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "w-full xl:w-auto")}
+                                            className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'w-full xl:w-auto')}
                                         >
                                             <Eye className="mr-2 h-3 w-3" />
                                             View
                                         </Link>
-                                        <Link 
+                                        <Link
                                             href={`/tours/${tour.slug}/edit`}
-                                            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "w-full xl:w-auto")}
+                                            className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'w-full xl:w-auto')}
                                         >
                                             <Edit className="mr-2 h-3 w-3" />
                                             Edit
@@ -121,10 +125,7 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
                         <MapPin className="mb-4 h-16 w-16 text-muted-foreground" />
                         <CardTitle className="mb-2">No tour packages found</CardTitle>
                         <CardDescription className="mb-4">Get started by creating your first tour package</CardDescription>
-                        <Link 
-                            href="/tours/create"
-                            className={cn(buttonVariants())}
-                        >
+                        <Link href="/tours/create" className={cn(buttonVariants())}>
                             <Plus className="mr-2 h-4 w-4" />
                             Add First Tour
                         </Link>

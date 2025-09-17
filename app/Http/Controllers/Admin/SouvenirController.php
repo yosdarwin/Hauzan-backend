@@ -28,7 +28,7 @@ class SouvenirController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'short_desc' => 'required|string',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|numeric',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:1024',
         ]);
 
@@ -69,7 +69,7 @@ class SouvenirController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'short_desc' => 'required|string',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1024',
         ]);
 

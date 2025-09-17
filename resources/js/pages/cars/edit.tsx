@@ -350,7 +350,7 @@ export default function CarEdit({ car }: CarEditProps) {
                                             type="text"
                                             value={data.price}
                                             onChange={(e) => setData('price', e.target.value)}
-                                            placeholder="e.g., Rp 350,000"
+                                            placeholder="e.g., 350.000"
                                             className={errors.price ? 'border-red-500' : ''}
                                         />
                                         {errors.price && <p className="mt-1 text-sm text-red-500">{errors.price}</p>}

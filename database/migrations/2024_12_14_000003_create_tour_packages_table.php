@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('slug')->unique();
             $table->string('title');
-            $table->string('price');
+            $table->decimal('price', 10, 0);
             $table->string('duration');
             $table->string('image');
             $table->text('description');

@@ -81,7 +81,14 @@ export default function CarsIndex({ cars }: CarsIndexProps) {
                                         <span>Duration: {car.duration}</span>
                                     </div>
                                     <div className="mb-4 flex items-center justify-between">
-                                        <span className="text-2xl font-bold text-green-600">{car.price}</span>
+                                        <span className="text-2xl font-bold text-green-600">
+                                            {new Intl.NumberFormat('id-ID', {
+                                                style: 'currency',
+                                                currency: 'IDR',
+                                                minimumFractionDigits: 0,
+                                                maximumFractionDigits: 0,
+                                            }).format(Number(car.price)).replace('Rp', 'Rp.')}
+                                        </span>
                                     </div>
                                     <div className="flex flex-col gap-2 xl:flex-row">
                                         <Link

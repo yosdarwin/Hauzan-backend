@@ -2,10 +2,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
+import { cn } from '@/lib/utils';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { Edit, Eye, Gift, Plus, Trash2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -40,7 +40,12 @@ export default function SouvenirsIndex({ souvenirs }: SouvenirsIndexProps) {
     };
 
     const formatPrice = (price: number) => {
-        return `Rp ${Math.floor(price).toLocaleString('id-ID')}`;
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(price).replace('Rp', 'Rp.');
     };
 
     return (
@@ -53,10 +58,7 @@ export default function SouvenirsIndex({ souvenirs }: SouvenirsIndexProps) {
                         <h1 className="text-3xl font-bold">Souvenirs</h1>
                         <p className="text-muted-foreground">Manage souvenir products and inventory</p>
                     </div>
-                    <Link 
-                        href="/souvenirs/create"
-                        className={cn(buttonVariants())}
-                    >
+                    <Link href="/souvenirs/create" className={cn(buttonVariants())}>
                         <Plus className="mr-2 h-4 w-4" />
                         Add New Souvenir
                     </Link>
@@ -70,11 +72,7 @@ export default function SouvenirsIndex({ souvenirs }: SouvenirsIndexProps) {
                                 <CardHeader className="p-0">
                                     <div className="aspect-video w-full overflow-hidden bg-muted">
                                         {souvenir.image ? (
-                                            <img
-                                                src={`/storage/${souvenir.image}`}
-                                                alt={souvenir.name}
-                                                className="h-full w-full object-cover"
-                                            />
+                                            <img src={`/storage/${souvenir.image}`} alt={souvenir.name} className="h-full w-full object-cover" />
                                         ) : (
                                             <div className="flex h-full items-center justify-center">
                                                 <Gift className="h-12 w-12 text-muted-foreground" />
@@ -84,25 +82,22 @@ export default function SouvenirsIndex({ souvenirs }: SouvenirsIndexProps) {
                                 </CardHeader>
                                 <CardContent className="p-4">
                                     <div className="mb-2">
-                                        <CardTitle className="text-lg line-clamp-1">{souvenir.name}</CardTitle>
+                                        <CardTitle className="line-clamp-1 text-lg">{souvenir.name}</CardTitle>
                                         <Badge variant="secondary" className="mt-1">
                                             {formatPrice(souvenir.price)}
                                         </Badge>
                                     </div>
-                                    
+
                                     <p className="mb-4 line-clamp-2 text-sm text-muted-foreground">{souvenir.description}</p>
 
                                     <div className="flex gap-2">
-                                        <Link 
-                                            href={`/souvenirs/${souvenir.id}`}
-                                            className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
-                                        >
+                                        <Link href={`/souvenirs/${souvenir.id}`} className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}>
                                             <Eye className="mr-2 h-3 w-3" />
                                             View
                                         </Link>
-                                        <Link 
+                                        <Link
                                             href={`/souvenirs/${souvenir.id}/edit`}
-                                            className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
+                                            className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
                                         >
                                             <Edit className="mr-2 h-3 w-3" />
                                             Edit
@@ -126,10 +121,7 @@ export default function SouvenirsIndex({ souvenirs }: SouvenirsIndexProps) {
                         <Gift className="mb-4 h-16 w-16 text-muted-foreground" />
                         <CardTitle className="mb-2">No souvenirs found</CardTitle>
                         <CardDescription className="mb-4">Get started by adding your first souvenir product</CardDescription>
-                        <Link 
-                            href="/souvenirs/create"
-                            className={cn(buttonVariants())}
-                        >
+                        <Link href="/souvenirs/create" className={cn(buttonVariants())}>
                             <Plus className="mr-2 h-4 w-4" />
                             Add First Souvenir
                         </Link>
