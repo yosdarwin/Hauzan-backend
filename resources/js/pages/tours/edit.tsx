@@ -429,7 +429,7 @@ export default function TourEdit({ tour }: TourEditProps) {
                                             placeholder="Enter highlight"
                                             className="flex-1"
                                         />
-                                        {data.highlights.length > 1 && (
+                                        {data.highlights.length > 1 && index > 0 && (
                                             <Button type="button" onClick={() => removeHighlight(index)} variant="outline" size="sm">
                                                 <X className="h-4 w-4" />
                                             </Button>
@@ -456,7 +456,7 @@ export default function TourEdit({ tour }: TourEditProps) {
                                             placeholder="Enter included item"
                                             className="flex-1"
                                         />
-                                        {data.included.length > 1 && (
+                                        {data.included.length > 1 && index > 0 && (
                                             <Button type="button" onClick={() => removeIncludedItem(index)} variant="outline" size="sm">
                                                 <X className="h-4 w-4" />
                                             </Button>
@@ -483,7 +483,7 @@ export default function TourEdit({ tour }: TourEditProps) {
                                             placeholder="Enter not included item"
                                             className="flex-1"
                                         />
-                                        {data.not_included.length > 1 && (
+                                        {data.not_included.length > 1 && index > 0 && (
                                             <Button type="button" onClick={() => removeNotIncluded(index)} variant="outline" size="sm">
                                                 <X className="h-4 w-4" />
                                             </Button>
@@ -506,7 +506,7 @@ export default function TourEdit({ tour }: TourEditProps) {
                                     <div key={index} className="space-y-3 rounded-lg border p-4">
                                         <div className="flex items-center justify-between">
                                             <h4 className="font-medium">Activity {index + 1}</h4>
-                                            {data.itinerary.length > 1 && (
+                                            {data.itinerary.length > 1 && index > 0 && (
                                                 <Button type="button" onClick={() => removeItineraryItem(index)} variant="outline" size="sm">
                                                     <X className="h-4 w-4" />
                                                 </Button>

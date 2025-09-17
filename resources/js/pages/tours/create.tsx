@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm } from '@inertiajs/react';
-import { ArrowLeft, Save } from 'lucide-react';
+import { ArrowLeft, Save, X } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -380,14 +380,17 @@ export default function TourCreate() {
                                             onChange={(e) => updateHighlight(index, e.target.value)}
                                             placeholder="Enter highlight"
                                         />
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            onClick={() => removeHighlight(index)}
-                                            disabled={data.highlights.length === 1}
-                                        >
-                                            Remove
-                                        </Button>
+                                        {index > 0 && (
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => removeHighlight(index)}
+                                                disabled={data.highlights.length === 1}
+                                            >
+                                                <X className="h-4 w-4" />
+                                            </Button>
+                                        )}
                                     </div>
                                 ))}
                                 <Button type="button" variant="outline" onClick={addHighlight} className="mt-2">
@@ -405,14 +408,17 @@ export default function TourCreate() {
                                             onChange={(e) => updateIncluded(index, e.target.value)}
                                             placeholder="Enter included item"
                                         />
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            onClick={() => removeIncluded(index)}
-                                            disabled={data.included.length === 1}
-                                        >
-                                            Remove
-                                        </Button>
+                                        {index > 0 && (
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => removeIncluded(index)}
+                                                disabled={data.included.length === 1}
+                                            >
+                                                <X className="h-4 w-4" />
+                                            </Button>
+                                        )}
                                     </div>
                                 ))}
                                 <Button type="button" variant="outline" onClick={addIncluded} className="mt-2">
@@ -430,14 +436,17 @@ export default function TourCreate() {
                                             onChange={(e) => updateNotIncluded(index, e.target.value)}
                                             placeholder="Enter not included item"
                                         />
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            onClick={() => removeNotIncluded(index)}
-                                            disabled={data.not_included.length === 1}
-                                        >
-                                            Remove
-                                        </Button>
+                                        {index > 0 && (
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => removeNotIncluded(index)}
+                                                disabled={data.not_included.length === 1}
+                                            >
+                                                <X className="h-4 w-4" />
+                                            </Button>
+                                        )}
                                     </div>
                                 ))}
                                 <Button type="button" variant="outline" onClick={addNotIncluded} className="mt-2">
@@ -453,9 +462,9 @@ export default function TourCreate() {
                                         <div key={index} className="space-y-3 rounded-lg border p-4">
                                             <div className="flex items-center justify-between">
                                                 <h4 className="font-medium">Activity {index + 1}</h4>
-                                                {data.itinerary.length > 1 && (
+                                                {data.itinerary.length > 1 && index > 0 && (
                                                     <Button type="button" variant="outline" size="sm" onClick={() => removeItineraryItem(index)}>
-                                                        Remove
+                                                        <X className="h-4 w-4" />
                                                     </Button>
                                                 )}
                                             </div>

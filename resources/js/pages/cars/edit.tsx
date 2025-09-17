@@ -396,7 +396,7 @@ export default function CarEdit({ car }: CarEditProps) {
                                             onClick={() => removeFeature(index)}
                                             disabled={data.features.length === 1}
                                         >
-                                            <Minus className="h-4 w-4" />
+                                            <X className="h-4 w-4" />
                                         </Button>
                                     </div>
                                 ))}
@@ -432,7 +432,7 @@ export default function CarEdit({ car }: CarEditProps) {
                                             onClick={() => removeSpecification(index)}
                                             disabled={data.specifications.length === 1}
                                         >
-                                            <Minus className="h-4 w-4" />
+                                            <X className="h-4 w-4" />
                                         </Button>
                                     </div>
                                 ))}
@@ -463,7 +463,7 @@ export default function CarEdit({ car }: CarEditProps) {
                                             onClick={() => removeFeaturesDetail(index)}
                                             disabled={data.features_detail.length === 1}
                                         >
-                                            <Minus className="h-4 w-4" />
+                                            <X className="h-4 w-4" />
                                         </Button>
                                     </div>
                                 ))}
@@ -494,7 +494,7 @@ export default function CarEdit({ car }: CarEditProps) {
                                             onClick={() => removeIncluded(index)}
                                             disabled={data.included.length === 1}
                                         >
-                                            <Minus className="h-4 w-4" />
+                                            <X className="h-4 w-4" />
                                         </Button>
                                     </div>
                                 ))}
@@ -525,7 +525,7 @@ export default function CarEdit({ car }: CarEditProps) {
                                             onClick={() => removeTerm(index)}
                                             disabled={data.terms.length === 1}
                                         >
-                                            <Minus className="h-4 w-4" />
+                                            <X className="h-4 w-4" />
                                         </Button>
                                     </div>
                                 ))}
@@ -566,7 +566,7 @@ export default function CarEdit({ car }: CarEditProps) {
                                             onClick={() => removePricing(index)}
                                             disabled={data.pricing.length === 1}
                                         >
-                                            <Minus className="h-4 w-4" />
+                                            <X className="h-4 w-4" />
                                         </Button>
                                     </div>
                                 ))}
