@@ -32,16 +32,14 @@
                     </div>
                 </div>
 
-                @if($testimonial->location)
                 <div class="row mb-3">
                     <div class="col-sm-3">
-                        <strong>Location:</strong>
+                        <strong>Date:</strong>
                     </div>
                     <div class="col-sm-9">
-                        {{ $testimonial->location }}
+                        {{ $testimonial->date }}
                     </div>
                 </div>
-                @endif
 
                 <div class="row mb-3">
                     <div class="col-sm-3">
@@ -72,27 +70,7 @@
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <div class="col-sm-3">
-                        <strong>Order:</strong>
-                    </div>
-                    <div class="col-sm-9">
-                        {{ $testimonial->order }}
-                    </div>
-                </div>
 
-                <div class="row mb-3">
-                    <div class="col-sm-3">
-                        <strong>Status:</strong>
-                    </div>
-                    <div class="col-sm-9">
-                        @if($testimonial->is_active)
-                            <span class="badge bg-success">Active</span>
-                        @else
-                            <span class="badge bg-secondary">Inactive</span>
-                        @endif
-                    </div>
-                </div>
 
                 <div class="row mb-3">
                     <div class="col-sm-3">
@@ -142,15 +120,11 @@
             </div>
             <div class="card-body">
                 <div class="row text-center">
-                    <div class="col-6">
-                        <div class="border-end">
+                    <div class="col-12">
+                        <div class="text-center">
                             <h4 class="text-warning mb-0">{{ $testimonial->rating }}</h4>
                             <small class="text-muted">Rating</small>
                         </div>
-                    </div>
-                    <div class="col-6">
-                        <h4 class="mb-0">{{ $testimonial->order }}</h4>
-                        <small class="text-muted">Display Order</small>
                     </div>
                 </div>
             </div>

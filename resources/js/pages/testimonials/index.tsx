@@ -21,11 +21,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface Testimonial {
     id: number;
     name: string;
-    email: string;
     review: string;
     rating: number;
     photo: string;
-    is_active: boolean;
+    date: string;
     created_at: string;
     updated_at: string;
 }
@@ -89,12 +88,9 @@ export default function TestimonialsIndex({ testimonials }: TestimonialsIndexPro
                                             </div>
                                             <div>
                                                 <CardTitle className="text-base">{testimonial.name}</CardTitle>
-                                                <CardDescription className="text-sm">{testimonial.email}</CardDescription>
+                                                <CardDescription className="text-sm">{testimonial.date}</CardDescription>
                                             </div>
                                         </div>
-                                        <Badge variant={testimonial.is_active ? 'default' : 'secondary'}>
-                                            {testimonial.is_active ? 'Active' : 'Inactive'}
-                                        </Badge>
                                     </div>
                                 </CardHeader>
                                 <CardContent>

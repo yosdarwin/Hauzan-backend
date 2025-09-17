@@ -81,7 +81,7 @@ Route::prefix('api')->group(function () {
     });
 
     Route::get('testimonials', function () {
-        return Testimonial::active()->ordered()->get();
+        return Testimonial::all();
     });
 });
 

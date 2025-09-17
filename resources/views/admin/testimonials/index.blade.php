@@ -22,8 +22,7 @@
                             <th>Name</th>
                             <th>Review</th>
                             <th>Rating</th>
-                            <th>Order</th>
-                            <th>Status</th>
+                            <th>Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -44,8 +43,7 @@
                                 @endif
                             </td>
                             <td>
-                                <strong>{{ $testimonial->name }}</strong><br>
-                                <small class="text-muted">{{ $testimonial->location }}</small>
+                                <strong>{{ $testimonial->name }}</strong>
                             </td>
                             <td>{{ Str::limit($testimonial->review, 60) }}</td>
                             <td>
@@ -57,14 +55,10 @@
                                     @endif
                                 @endfor
                             </td>
-                            <td>{{ $testimonial->order }}</td>
                             <td>
-                                @if($testimonial->is_active)
-                                    <span class="badge bg-success">Active</span>
-                                @else
-                                    <span class="badge bg-secondary">Inactive</span>
-                                @endif
+                                <small class="text-muted">{{ $testimonial->date }}</small>
                             </td>
+
                             <td>
                                 <div class="btn-group" role="group">
                                     <a href="{{ route('testimonials.show', $testimonial) }}" class="btn btn-sm btn-info">

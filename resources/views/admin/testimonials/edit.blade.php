@@ -37,11 +37,11 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="location" class="form-label">Location</label>
-                        <input type="text" class="form-control @error('location') is-invalid @enderror" 
-                               id="location" name="location" value="{{ old('location', $testimonial->location) }}" 
-                               placeholder="e.g., Jakarta, Indonesia">
-                        @error('location')
+                        <label for="date" class="form-label">Date <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('date') is-invalid @enderror" 
+                               id="date" name="date" value="{{ old('date', $testimonial->date) }}" 
+                               placeholder="e.g., December 2024" required>
+                        @error('date')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -73,27 +73,6 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="order" class="form-label">Display Order <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control @error('order') is-invalid @enderror" 
-                                       id="order" name="order" value="{{ old('order', $testimonial->order) }}" 
-                                       min="0" required>
-                                <div class="form-text">Lower numbers appear first</div>
-                                @error('order')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="is_active" name="is_active" 
-                                   {{ old('is_active', $testimonial->is_active) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_active">
-                                Active (Show on website)
-                            </label>
                         </div>
                     </div>
                 </div>

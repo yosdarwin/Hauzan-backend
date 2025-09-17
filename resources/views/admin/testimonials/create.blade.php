@@ -24,10 +24,10 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="comment" class="form-label">Comment <span class="text-danger">*</span></label>
-                        <textarea class="form-control @error('comment') is-invalid @enderror"
-                                  id="comment" name="comment" rows="4" required>{{ old('comment') }}</textarea>
-                        @error('comment')
+                        <label for="review" class="form-label">Testimonial <span class="text-danger">*</span></label>
+                        <textarea class="form-control @error('review') is-invalid @enderror"
+                                  id="review" name="review" rows="4" required>{{ old('review') }}</textarea>
+                        @error('review')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -59,33 +59,16 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="avatar" class="form-label">Avatar (Optional)</label>
-                        <input type="file" class="form-control @error('avatar') is-invalid @enderror"
-                               id="avatar" name="avatar" accept="image/*">
-                        @error('avatar')
+                        <label for="photo" class="form-label">Photo (Optional)</label>
+                        <input type="file" class="form-control @error('photo') is-invalid @enderror"
+                               id="photo" name="photo" accept="image/*">
+                        @error('photo')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                         <div class="form-text">Optional profile picture</div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="order" class="form-label">Order <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control @error('order') is-invalid @enderror"
-                               id="order" name="order" value="{{ old('order', 0) }}" min="0" required>
-                        @error('order')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
 
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1"
-                                   {{ old('is_active', true) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_active">
-                                Active
-                            </label>
-                        </div>
-                    </div>
 
                     <div class="d-flex justify-content-between">
                         <a href="{{ route('testimonials.index') }}" class="btn btn-secondary">Cancel</a>

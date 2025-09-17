@@ -12,7 +12,7 @@ class TestimonialController extends Controller
 {
     public function index()
     {
-        $testimonials = Testimonial::ordered()->get();
+        $testimonials = Testimonial::all();
         return Inertia::render('testimonials/index', [
             'testimonials' => $testimonials
         ]);
@@ -27,20 +27,16 @@ class TestimonialController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'location' => 'nullable|string|max:255',
+            'date' => 'required|string|max:255',
             'review' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1024',
-            'is_active' => 'boolean',
-            'order' => 'required|integer|min:0',
         ]);
 
         if ($request->hasFile('photo')) {
             $photoPath = $request->file('photo')->store('testimonials', 'public');
             $validated['photo'] = $photoPath;
         }
-
-        $validated['is_active'] = $request->has('is_active');
 
         Testimonial::create($validated);
 
@@ -66,12 +62,10 @@ class TestimonialController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'location' => 'nullable|string|max:255',
+            'date' => 'required|string|max:255',
             'review' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1024',
-            'is_active' => 'boolean',
-            'order' => 'required|integer|min:0',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -82,8 +76,6 @@ class TestimonialController extends Controller
             $photoPath = $request->file('photo')->store('testimonials', 'public');
             $validated['photo'] = $photoPath;
         }
-
-        $validated['is_active'] = $request->has('is_active');
 
         $testimonial->update($validated);
 
