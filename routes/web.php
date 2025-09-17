@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\TourPackageController;
 use App\Http\Controllers\Admin\CarRentalController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\SouvenirController;
+use App\Http\Controllers\Admin\AppSettingsController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Models\Slider;
 use App\Models\TourPackage;
 use App\Models\CarRental;
@@ -59,6 +61,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Souvenirs CRUD
     Route::resource('souvenirs', SouvenirController::class);
+
+    // App Settings
+    Route::get('settings/app', [AppSettingsController::class, 'index'])->name('app-settings.index');
+    Route::put('settings/app', [AppSettingsController::class, 'update'])->name('app-settings.update');
+    Route::delete('settings/app/logo', [AppSettingsController::class, 'removeLogo'])->name('app-settings.remove-logo');
+
+    // Admin Management
+    Route::resource('settings/admins', AdminController::class)->names([
+        'index' => 'admins.index',
+        'create' => 'admins.create',
+        'store' => 'admins.store',
+        'show' => 'admins.show',
+        'edit' => 'admins.edit',
+        'update' => 'admins.update',
+        'destroy' => 'admins.destroy'
+    ]);
+    Route::patch('settings/admins/{admin}/toggle-status', [AdminController::class, 'toggleStatus'])->name('admins.toggle-status');
 });
 
 // API Routes for React App

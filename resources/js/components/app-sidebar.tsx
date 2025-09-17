@@ -4,7 +4,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Car, Images, Info, LayoutGrid, MapPin, MessageSquareQuote, ShoppingBag } from 'lucide-react';
+import { Car, Images, Info, LayoutGrid, MapPin, MessageSquareQuote, Settings, ShoppingBag } from 'lucide-react';
 
 const mainNavItems: NavItem[] = [
     {
@@ -41,6 +41,11 @@ const mainNavItems: NavItem[] = [
         title: 'Testimonials',
         href: '/testimonials',
         icon: MessageSquareQuote,
+    },
+    {
+        title: 'Settings',
+        href: '/settings/app',
+        icon: Settings,
     },
 ];
 
