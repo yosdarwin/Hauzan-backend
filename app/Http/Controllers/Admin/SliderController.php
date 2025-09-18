@@ -64,6 +64,8 @@ class SliderController extends Controller
             'title' => 'required|string|max:255',
             'subtitle' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+            'button_text' => 'nullable|string|max:255',
+            'button_link' => 'nullable|string|max:255',
             'is_active' => 'boolean',
         ]);
 
@@ -72,6 +74,10 @@ class SliderController extends Controller
                 Storage::disk('public')->delete($slider->image);
             }
             $validated['image'] = $request->file('image')->store('sliders', 'public');
+        } else {
+            // Remove image from validated data if no new image is uploaded
+            // This prevents trying to set the image column to null
+            unset($validated['image']);
         }
 
         $validated['is_active'] = $request->has('is_active');

@@ -1,11 +1,11 @@
+import { Badge } from '@/components/ui/badge';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
+import { cn } from '@/lib/utils';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Edit, Trash2, ExternalLink } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { ArrowLeft, Edit, Trash2 } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -56,17 +56,11 @@ export default function SliderShow({ slider }: SliderShowProps) {
                         <p className="text-muted-foreground">View slider details</p>
                     </div>
                     <div className="flex gap-2">
-                        <Link 
-                            href={`/sliders/${slider.id}/edit`}
-                            className={cn(buttonVariants())}
-                        >
+                        <Link href={`/sliders/${slider.id}/edit`} className={cn(buttonVariants())}>
                             <Edit className="mr-2 h-4 w-4" />
                             Edit Slider
                         </Link>
-                        <Link 
-                            href="/sliders"
-                            className={cn(buttonVariants({ variant: "outline" }))}
-                        >
+                        <Link href="/sliders" className={cn(buttonVariants({ variant: 'outline' }))}>
                             <ArrowLeft className="mr-2 h-4 w-4" />
                             Back to List
                         </Link>
@@ -82,32 +76,23 @@ export default function SliderShow({ slider }: SliderShowProps) {
                                 <CardDescription>How this slider appears on your website</CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <div className="aspect-video relative overflow-hidden rounded-lg border">
+                                <div className="relative aspect-video overflow-hidden rounded-lg border">
                                     {slider.image ? (
-                                        <img
-                                            src={`/storage/${slider.image}`}
-                                            alt={slider.title}
-                                            className="object-cover w-full h-full"
-                                        />
+                                        <img src={`/storage/${slider.image}`} alt={slider.title} className="h-full w-full object-cover" />
                                     ) : (
-                                        <div className="flex items-center justify-center h-full bg-muted">
+                                        <div className="flex h-full items-center justify-center bg-muted">
                                             <p className="text-muted-foreground">No image uploaded</p>
                                         </div>
                                     )}
-                                    
+
                                     {/* Overlay content simulation */}
-                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                        <div className="text-center text-white p-6">
-                                            <h2 className="text-4xl font-bold mb-4">{slider.title}</h2>
-                                            {slider.subtitle && (
-                                                <p className="text-xl mb-6">{slider.subtitle}</p>
-                                            )}
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                                        <div className="p-6 text-center text-white">
+                                            <h2 className="mb-4 text-4xl font-bold">{slider.title}</h2>
+                                            {slider.subtitle && <p className="mb-6 text-xl">{slider.subtitle}</p>}
                                             {slider.button_text && (
-                                                <div className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg">
+                                                <div className="inline-flex items-center rounded-lg border-2 border-white bg-transparent px-6 py-3 text-white">
                                                     {slider.button_text}
-                                                    {slider.button_link && (
-                                                        <ExternalLink className="ml-2 h-4 w-4" />
-                                                    )}
                                                 </div>
                                             )}
                                         </div>
@@ -127,9 +112,7 @@ export default function SliderShow({ slider }: SliderShowProps) {
                                 <div>
                                     <label className="text-sm font-medium text-muted-foreground">Status</label>
                                     <div className="mt-1">
-                                        <Badge variant={slider.is_active ? "default" : "secondary"}>
-                                            {slider.is_active ? "Active" : "Inactive"}
-                                        </Badge>
+                                        <Badge variant={slider.is_active ? 'default' : 'secondary'}>{slider.is_active ? 'Active' : 'Inactive'}</Badge>
                                     </div>
                                 </div>
 
@@ -160,18 +143,11 @@ export default function SliderShow({ slider }: SliderShowProps) {
                                 <CardTitle>Actions</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-2">
-                                <Link 
-                                    href={`/sliders/${slider.id}/edit`} 
-                                    className={cn(buttonVariants({ variant: "outline", className: "w-full" }))}
-                                >
+                                <Link href={`/sliders/${slider.id}/edit`} className={cn(buttonVariants({ variant: 'outline', className: 'w-full' }))}>
                                     <Edit className="mr-2 h-4 w-4" />
                                     Edit Slider
                                 </Link>
-                                <Button
-                                    variant="outline"
-                                    className="w-full text-destructive hover:text-destructive"
-                                    onClick={handleDelete}
-                                >
+                                <Button variant="outline" className="w-full text-destructive hover:text-destructive" onClick={handleDelete}>
                                     <Trash2 className="mr-2 h-4 w-4" />
                                     Delete Slider
                                 </Button>

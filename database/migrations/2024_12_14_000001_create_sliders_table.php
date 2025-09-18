@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('subtitle');
             $table->string('background_image');
-            $table->string('button_text')->default('Lihat Details');
+            $table->string('button_text')->nullable();
             $table->string('button_link')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();

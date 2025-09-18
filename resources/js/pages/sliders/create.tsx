@@ -1,11 +1,12 @@
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
 import { ArrowLeft, Save } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
@@ -61,9 +62,7 @@ export default function SliderCreate() {
                 <Card>
                     <CardHeader>
                         <CardTitle>Slider Details</CardTitle>
-                        <CardDescription>
-                            Fill in the information below to create a new slider
-                        </CardDescription>
+                        <CardDescription>Fill in the information below to create a new slider</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={submit} className="space-y-6">
@@ -78,24 +77,20 @@ export default function SliderCreate() {
                                         placeholder="Enter slider title"
                                         className={errors.title ? 'border-destructive' : ''}
                                     />
-                                    {errors.title && (
-                                        <p className="text-sm text-destructive">{errors.title}</p>
-                                    )}
+                                    {errors.title && <p className="text-sm text-destructive">{errors.title}</p>}
                                 </div>
 
                                 {/* Subtitle */}
                                 <div className="space-y-2">
                                     <Label htmlFor="subtitle">Subtitle</Label>
-                                    <Input
+                                    <Textarea
                                         id="subtitle"
                                         value={data.subtitle}
                                         onChange={(e) => setData('subtitle', e.target.value)}
                                         placeholder="Enter slider subtitle"
                                         className={errors.subtitle ? 'border-destructive' : ''}
                                     />
-                                    {errors.subtitle && (
-                                        <p className="text-sm text-destructive">{errors.subtitle}</p>
-                                    )}
+                                    {errors.subtitle && <p className="text-sm text-destructive">{errors.subtitle}</p>}
                                 </div>
 
                                 {/* Button Text */}
@@ -108,9 +103,7 @@ export default function SliderCreate() {
                                         placeholder="e.g., Learn More"
                                         className={errors.button_text ? 'border-destructive' : ''}
                                     />
-                                    {errors.button_text && (
-                                        <p className="text-sm text-destructive">{errors.button_text}</p>
-                                    )}
+                                    {errors.button_text && <p className="text-sm text-destructive">{errors.button_text}</p>}
                                 </div>
 
                                 {/* Button Link */}
@@ -123,9 +116,7 @@ export default function SliderCreate() {
                                         placeholder="https://example.com or /page"
                                         className={errors.button_link ? 'border-destructive' : ''}
                                     />
-                                    {errors.button_link && (
-                                        <p className="text-sm text-destructive">{errors.button_link}</p>
-                                    )}
+                                    {errors.button_link && <p className="text-sm text-destructive">{errors.button_link}</p>}
                                 </div>
 
                                 {/* Image */}
@@ -138,22 +129,14 @@ export default function SliderCreate() {
                                         onChange={(e) => setData('image', e.target.files?.[0] || null)}
                                         className={errors.image ? 'border-destructive' : ''}
                                     />
-                                    {errors.image && (
-                                        <p className="text-sm text-destructive">{errors.image}</p>
-                                    )}
-                                    <p className="text-sm text-muted-foreground">
-                                        Recommended size: 1920x1080px (JPG, PNG)
-                                    </p>
+                                    {errors.image && <p className="text-sm text-destructive">{errors.image}</p>}
+                                    <p className="text-sm text-muted-foreground">Recommended size: 1920x1080px (JPG, PNG)</p>
                                 </div>
                             </div>
 
                             {/* Active Status */}
                             <div className="flex items-center space-x-2">
-                                <Checkbox
-                                    id="is_active"
-                                    checked={data.is_active}
-                                    onCheckedChange={(checked) => setData('is_active', !!checked)}
-                                />
+                                <Checkbox id="is_active" checked={data.is_active} onCheckedChange={(checked) => setData('is_active', !!checked)} />
                                 <Label htmlFor="is_active">Active (visible on website)</Label>
                             </div>
 
