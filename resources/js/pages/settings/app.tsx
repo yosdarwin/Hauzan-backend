@@ -3,12 +3,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import AppLayout from '@/layouts/app-layout';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { Settings, Smartphone, Upload, UserCog, X } from 'lucide-react';
-import { useState } from 'react';
+import { Settings, Smartphone, Upload, UserCog, X, CheckCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -35,6 +36,7 @@ interface AppSettingsProps {
 
 export default function AppSettings({ settings }: AppSettingsProps) {
     const [logoPreview, setLogoPreview] = useState<string | null>(settings.logo ? `/storage/${settings.logo}` : null);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         logo: null as File | null,
@@ -71,9 +73,20 @@ export default function AppSettings({ settings }: AppSettingsProps) {
         post('/settings/app', {
             onSuccess: () => {
                 reset('logo');
+                setShowSuccess(true);
             },
         });
     };
+
+    useEffect(() => {
+        if (showSuccess) {
+            const timer = setTimeout(() => {
+                setShowSuccess(false);
+            }, 5000); // Hide after 5 seconds
+
+            return () => clearTimeout(timer);
+        }
+    }, [showSuccess]);
 
     const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
 
@@ -210,6 +223,18 @@ export default function AppSettings({ settings }: AppSettingsProps) {
                                 </CardContent>
                             </Card>
 
+                            {/* Success Message */}
+                            {showSuccess && (
+                                <Alert className="border-green-600 bg-green-200">
+                                    <AlertDescription>
+                                        <div className="flex items-center gap-4">
+                                            <CheckCircle size={25} color="green" />
+                                            <span className="text-base text-green-800">App settings have been saved successfully!</span>
+                                        </div>
+                                    </AlertDescription>
+                                </Alert>
+                            )}
+                                            
                             {/* Save Button */}
                             <div className="flex justify-end">
                                 <Button type="submit" disabled={processing}>
