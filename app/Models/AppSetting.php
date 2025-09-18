@@ -48,4 +48,65 @@ class AppSetting extends Model
     {
         return static::pluck('value', 'key')->toArray();
     }
+
+    /**
+     * Get section title and subtitle
+     */
+    public static function getSection(string $sectionName)
+    {
+        $title = static::get("section.{$sectionName}.title");
+        $subtitle = static::get("section.{$sectionName}.subtitle");
+        
+        return [
+            'title' => $title,
+            'subtitle' => $subtitle
+        ];
+    }
+
+    /**
+     * Set section title and subtitle
+     */
+    public static function setSection(string $sectionName, string $title, string $subtitle)
+    {
+        static::set("section.{$sectionName}.title", $title, 'text', ucfirst(str_replace('_', ' ', $sectionName)) . ' section title');
+        static::set("section.{$sectionName}.subtitle", $subtitle, 'text', ucfirst(str_replace('_', ' ', $sectionName)) . ' section subtitle');
+    }
+
+    /**
+     * Get all section settings grouped by section
+     */
+    public static function getAllSections()
+    {
+        $settings = static::where('key', 'LIKE', 'section.%')->get();
+        $sections = [];
+
+        foreach ($settings as $setting) {
+            $keyParts = explode('.', $setting->key);
+            if (count($keyParts) >= 3) {
+                $sectionName = $keyParts[1];
+                $type = $keyParts[2]; // title or subtitle
+                
+                if (!isset($sections[$sectionName])) {
+                    $sections[$sectionName] = [];
+                }
+                
+                $sections[$sectionName][$type] = $setting->value;
+            }
+        }
+
+        return $sections;
+    }
+
+    /**
+     * Get available section names
+     */
+    public static function getAvailableSections()
+    {
+        return [
+            'popular_destinations' => 'Popular Destinations',
+            'featured_tour_package' => 'Featured Tour Package',
+            'car_rent' => 'Car Rent',
+            'testimonial' => 'Testimonial'
+        ];
+    }
 }

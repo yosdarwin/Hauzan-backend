@@ -54,6 +54,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('section-settings.*') ? 'active' : '' }}" href="{{ route('section-settings.index') }}">
+                                <i class="bi bi-layout-text-window-reverse"></i> Home Sections
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('about.*') ? 'active' : '' }}" href="{{ route('about.index') }}">
                                 <i class="bi bi-info-circle"></i> About Page
                             </a>

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\SouvenirController;
 use App\Http\Controllers\Admin\AppSettingsController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\SectionSettingsController;
 use App\Models\Slider;
 use App\Models\TourPackage;
 use App\Models\CarRental;
@@ -78,6 +79,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'destroy' => 'admins.destroy'
     ]);
     Route::patch('settings/admins/{admin}/toggle-status', [AdminController::class, 'toggleStatus'])->name('admins.toggle-status');
+
+    // Section Settings
+    Route::get('settings/sections', [SectionSettingsController::class, 'index'])->name('section-settings.index');
+    Route::post('settings/sections', [SectionSettingsController::class, 'update'])->name('section-settings.update');
 });
 
 // API Routes for React App
@@ -113,6 +118,10 @@ Route::prefix('api')->group(function () {
     Route::get('souvenirs', function () {
         return Souvenir::all();
     });
+
+    // Section Settings API
+    Route::get('sections', [SectionSettingsController::class, 'apiIndex']);
+    Route::get('sections/{section}', [SectionSettingsController::class, 'apiShow']);
 });
 
 require __DIR__ . '/settings.php';
