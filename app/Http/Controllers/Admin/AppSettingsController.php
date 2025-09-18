@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LogoResource;
 use App\Models\AppSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -31,6 +32,8 @@ class AppSettingsController extends Controller
             'whatsapp_accept_order' => 'required|boolean',
             'whatsapp_number' => 'nullable|string|max:20',
             'logo' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'meta_keywords' => 'nullable|string|max:500',
+            'meta_description' => 'nullable|string|max:160',
         ]);
 
         // Update WhatsApp accept order setting
@@ -68,8 +71,50 @@ class AppSettingsController extends Controller
             );
         }
 
+        // Update meta keywords setting
+        if (isset($validated['meta_keywords'])) {
+            AppSetting::set(
+                'meta_keywords',
+                $validated['meta_keywords'],
+                'text',
+                'SEO meta keywords for search engine optimization'
+            );
+        }
+
+        // Update meta description setting
+        if (isset($validated['meta_description'])) {
+            AppSetting::set(
+                'meta_description',
+                $validated['meta_description'],
+                'text',
+                'SEO meta description for search engine optimization'
+            );
+        }
+
         return redirect()->back()->with('success', 'App settings updated successfully.');
     }
+
+    /**
+     * Get app settings for API
+     */
+    public function apiIndex()
+    {
+        $settings = AppSetting::getAllSettings();
+
+        return response()->json([
+            'settings' => $settings
+        ]);
+    }
+
+    /**
+     * Get only logo from app settings for API
+     */
+    public function apiLogo()
+    {
+        $settings = AppSetting::all();
+        return new LogoResource($settings);
+    }
+
 
     /**
      * Remove logo.

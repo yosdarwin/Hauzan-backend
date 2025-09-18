@@ -2,13 +2,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import AppLayout from '@/layouts/app-layout';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { Settings, Smartphone, Upload, UserCog, X, CheckCircle } from 'lucide-react';
+import { Settings, Smartphone, Upload, UserCog, X, CheckCircle, Search } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -31,6 +32,8 @@ interface AppSettingsProps {
         logo?: string;
         whatsapp_accept_order?: boolean;
         whatsapp_number?: string;
+        meta_keywords?: string;
+        meta_description?: string;
     };
 }
 
@@ -42,6 +45,8 @@ export default function AppSettings({ settings }: AppSettingsProps) {
         logo: null as File | null,
         whatsapp_accept_order: settings.whatsapp_accept_order || false,
         whatsapp_number: settings.whatsapp_number || '',
+        meta_keywords: settings.meta_keywords || '',
+        meta_description: settings.meta_description || '',
         _method: 'PUT',
     });
 
@@ -219,6 +224,50 @@ export default function AppSettings({ settings }: AppSettingsProps) {
                                             Enter the WhatsApp number for customer orders (include country code)
                                         </p>
                                         {errors.whatsapp_number && <p className="text-sm text-red-600">{errors.whatsapp_number}</p>}
+                                    </div>
+                                </CardContent>
+                            </Card>
+
+                            <Separator />
+
+                            {/* SEO Meta Settings */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2">
+                                        <Search className="h-5 w-5" />
+                                        SEO Meta Settings
+                                    </CardTitle>
+                                    <CardDescription>Configure meta keywords and description for search engine optimization</CardDescription>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="meta_keywords">Meta Keywords</Label>
+                                        <Input
+                                            id="meta_keywords"
+                                            type="text"
+                                            placeholder="e.g., tour, travel, padang, indonesia, vacation"
+                                            value={data.meta_keywords}
+                                            onChange={(e) => setData('meta_keywords', e.target.value)}
+                                        />
+                                        <p className="text-sm text-muted-foreground">
+                                            Enter keywords separated by commas for search engine optimization
+                                        </p>
+                                        {errors.meta_keywords && <p className="text-sm text-red-600">{errors.meta_keywords}</p>}
+                                    </div>
+                                    
+                                    <div className="space-y-2">
+                                        <Label htmlFor="meta_description">Meta Description</Label>
+                                        <Textarea
+                                            id="meta_description"
+                                            placeholder="e.g., Discover amazing tour packages in Padang, Indonesia. Experience the best of local culture, cuisine, and natural beauty with our professional tour services."
+                                            value={data.meta_description}
+                                            onChange={(e) => setData('meta_description', e.target.value)}
+                                            rows={3}
+                                        />
+                                        <p className="text-sm text-muted-foreground">
+                                            Write a compelling description (150-160 characters recommended) that will appear in search results
+                                        </p>
+                                        {errors.meta_description && <p className="text-sm text-red-600">{errors.meta_description}</p>}
                                     </div>
                                 </CardContent>
                             </Card>

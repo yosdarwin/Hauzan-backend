@@ -119,6 +119,13 @@ Route::prefix('api')->group(function () {
         return Souvenir::all();
     });
 
+    // App Settings API
+    Route::get('app-settings', [AppSettingsController::class, 'apiIndex']);
+    Route::get('app-settings/logo', [AppSettingsController::class, 'apiLogo']);
+
+    // App Settings API
+    Route::get('admin-settings', [AdminController::class, 'apiIndex']);
+
     // Section Settings API
     Route::get('sections', [SectionSettingsController::class, 'apiIndex']);
     Route::get('sections/{section}', [SectionSettingsController::class, 'apiShow']);

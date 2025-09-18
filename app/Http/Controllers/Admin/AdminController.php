@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AdminResource;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,6 +19,18 @@ class AdminController extends Controller
 
         return Inertia::render('settings/admins/index', [
             'admins' => $admins
+        ]);
+    }
+
+    /**
+     * API Index
+     */
+    public function apiIndex()
+    {
+        $admins = Admin::ordered()->get();
+
+        return response()->json([
+            'admins' => AdminResource::collection($admins)
         ]);
     }
 
