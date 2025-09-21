@@ -47,7 +47,7 @@ class SectionSettingsController extends Controller
     public function apiIndex()
     {
         return response()->json([
-            'sections' => AppSetting::getAllSections()
+            AppSetting::getAllSections()
         ]);
     }
 
@@ -57,7 +57,7 @@ class SectionSettingsController extends Controller
     public function apiShow($sectionName)
     {
         $section = AppSetting::getSection($sectionName);
-        
+
         if (!$section['title'] && !$section['subtitle']) {
             return response()->json(['message' => 'Section not found'], 404);
         }

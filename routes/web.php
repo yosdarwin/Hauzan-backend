@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\SouvenirController;
 use App\Http\Controllers\Admin\AppSettingsController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SectionSettingsController;
+use App\Models\AboutContent;
 use App\Models\Slider;
 use App\Models\TourPackage;
 use App\Models\CarRental;
@@ -92,7 +93,7 @@ Route::prefix('api')->group(function () {
     });
 
     Route::get('about', function () {
-        return \App\Models\AboutContent::first();
+        return AboutContent::first();
     });
 
     Route::get('tours', function () {

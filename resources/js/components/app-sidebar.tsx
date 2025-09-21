@@ -6,12 +6,8 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { Car, Grid2x2, Images, Info, LayoutGrid, MapPin, MessageSquareQuote, Settings, ShoppingBag } from 'lucide-react';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
+// Core features and main functionality
+const featuredNavItems: NavItem[] = [
     {
         title: 'Home Sliders',
         href: '/sliders',
@@ -21,26 +17,6 @@ const mainNavItems: NavItem[] = [
         title: 'Home Sections',
         href: '/settings/sections',
         icon: Grid2x2,
-    },
-    {
-        title: 'About',
-        href: '/about',
-        icon: Info,
-    },
-    {
-        title: 'Tour Packages',
-        href: '/tours',
-        icon: MapPin,
-    },
-    {
-        title: 'Car Rentals',
-        href: '/cars',
-        icon: Car,
-    },
-    {
-        title: 'Souvenirs',
-        href: '/souvenirs',
-        icon: ShoppingBag,
     },
     {
         title: 'Testimonials',
@@ -54,6 +30,36 @@ const mainNavItems: NavItem[] = [
     },
 ];
 
+// Content management and configuration pages
+const pageNavItems: NavItem[] = [
+    {
+        title: 'Dashboard',
+        href: dashboard(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Tour Packages',
+        href: '/tours',
+        icon: MapPin,
+    },
+    {
+        title: 'Car Rentals',
+        href: '/cars',
+        icon: Car,
+    },
+    {
+        title: 'About',
+        href: '/about',
+        icon: Info,
+    },
+
+    {
+        title: 'Souvenirs',
+        href: '/souvenirs',
+        icon: ShoppingBag,
+    },
+];
+
 export function AppSidebar() {
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -62,7 +68,7 @@ export function AppSidebar() {
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <Link href={dashboard()} prefetch>
-                                <h1 className="text-2xl font-bold">HauzanTour</h1>
+                                <h1 className="text-2xl font-bold">GoTourPadang</h1>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -70,7 +76,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={featuredNavItems} pages={pageNavItems} />
             </SidebarContent>
 
             <SidebarFooter>
