@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
@@ -33,6 +34,7 @@ interface Tour {
     duration: string;
     location: string;
     image: string;
+    featured: boolean;
     highlights: string[];
     itinerary: Array<{
         day: number;
@@ -59,6 +61,7 @@ export default function TourEdit({ tour }: TourEditProps) {
         duration: tour.duration || '',
         location: tour.location || '',
         image: null as File | null,
+        featured: tour.featured || false,
         highlights: Array.isArray(tour.highlights) && tour.highlights.length > 0 ? tour.highlights.filter((h) => h && h.trim() !== '') : [''],
         itinerary: Array.isArray(tour.itinerary) && tour.itinerary.length > 0 ? tour.itinerary : [{ day: 1, time: '', activity: '' }],
         included: Array.isArray(tour.included) && tour.included.length > 0 ? tour.included.filter((i) => i && i.trim() !== '') : [''],
@@ -113,6 +116,7 @@ export default function TourEdit({ tour }: TourEditProps) {
             duration: data.duration && data.duration.trim() !== '' ? data.duration : tour.duration,
             location: data.location && data.location.trim() !== '' ? data.location : tour.location,
             image: data.image,
+            featured: data.featured,
             highlights: data.highlights.filter((item) => item && item.trim() !== ''),
             included: data.included.filter((item) => item && item.trim() !== ''),
             not_included: data.not_included.filter((item) => item && item.trim() !== ''),
@@ -156,6 +160,9 @@ export default function TourEdit({ tour }: TourEditProps) {
                             formData.append(`${key}[${index}][activity]`, item.activity);
                         });
                     }
+                } else if (key === 'featured') {
+                    // Handle boolean values
+                    formData.append(key, value ? '1' : '0');
                 } else if (value !== null && value !== undefined) {
                     // Ensure value is string or Blob for FormData.append
                     formData.append(key, typeof value === 'string' ? value : String(value));
@@ -352,6 +359,22 @@ export default function TourEdit({ tour }: TourEditProps) {
                                         className={errors.location ? 'border-destructive' : ''}
                                     />
                                     {errors.location && <p className="text-sm text-destructive">{errors.location}</p>}
+                                </div>
+
+                                {/* Featured */}
+                                <div className="space-y-2">
+                                    <div className="flex items-center space-x-2">
+                                        <Checkbox
+                                            id="featured"
+                                            checked={data.featured}
+                                            onCheckedChange={(checked) => setData('featured', checked as boolean)}
+                                        />
+                                        <Label htmlFor="featured" className="!mb-0">
+                                            Featured Tour
+                                        </Label>
+                                    </div>
+                                    <p className="text-sm text-muted-foreground">Mark this tour as featured to highlight it on the homepage</p>
+                                    {errors.featured && <p className="text-sm text-destructive">{errors.featured}</p>}
                                 </div>
                             </div>
 

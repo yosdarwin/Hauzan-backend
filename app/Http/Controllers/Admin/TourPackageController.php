@@ -35,6 +35,7 @@ class TourPackageController extends Controller
             'duration' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'featured' => 'nullable|boolean',
             'highlights' => 'nullable|array',
             'highlights.*' => 'nullable|string',
             'itinerary' => 'nullable|array',
@@ -67,8 +68,8 @@ class TourPackageController extends Controller
             $validated['image'] = $imagePath;
         }
 
-        // Set default value for featured
-        $validated['featured'] = false;
+        // Set default value for featured if not provided
+        $validated['featured'] = $validated['featured'] ?? false;
 
         // Filter out empty arrays and let model casting handle JSON conversion
         if (empty($validated['highlights']) || (count($validated['highlights']) === 1 && empty($validated['highlights'][0]))) {
@@ -115,6 +116,7 @@ class TourPackageController extends Controller
             'duration' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'featured' => 'nullable|boolean',
             'highlights' => 'nullable|array',
             'highlights.*' => 'nullable|string',
             'itinerary' => 'nullable|array',
@@ -154,8 +156,8 @@ class TourPackageController extends Controller
             unset($validated['image']);
         }
 
-        // Set default value for featured
-        $validated['featured'] = false;
+        // Set default value for featured if not provided
+        $validated['featured'] = $validated['featured'] ?? false;
 
         // Filter out empty arrays and let model casting handle JSON conversion
         if (empty($validated['highlights']) || (count($validated['highlights']) === 1 && empty($validated['highlights'][0]))) {

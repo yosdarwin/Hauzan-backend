@@ -105,6 +105,7 @@ Route::prefix('api')->group(function () {
     // Enhanced Tour Package API Routes
     Route::get('tours', [TourPackageApiController::class, 'index']);
     Route::get('tour/{slug}', [TourPackageApiController::class, 'show']);
+    Route::get('tours/popular', [TourPackageApiController::class, 'popular']);
     Route::get('tours/featured', [TourPackageApiController::class, 'featured']);
 
 

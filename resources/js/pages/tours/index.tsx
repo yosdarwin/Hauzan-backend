@@ -1,5 +1,6 @@
 import PaginationWrapper from '@/components/pagination-wrapper';
 import TourPackageHeaderForm from '@/components/TourPackageHeaderForm';
+import { Badge } from '@/components/ui/badge';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
@@ -29,6 +30,7 @@ interface Tour {
     duration: string;
     location: string;
     image: string;
+    featured: boolean;
     created_at: string;
     updated_at: string;
 }
@@ -95,6 +97,13 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
                                         ) : (
                                             <div className="flex h-full items-center justify-center bg-muted">
                                                 <MapPin className="h-12 w-12 text-muted-foreground" />
+                                            </div>
+                                        )}
+                                        {tour.featured && (
+                                            <div className="absolute top-2 right-2">
+                                                <Badge variant="default" className="bg-yellow-500 text-yellow-900 border-yellow-400">
+                                                    Featured
+                                                </Badge>
                                             </div>
                                         )}
                                     </div>

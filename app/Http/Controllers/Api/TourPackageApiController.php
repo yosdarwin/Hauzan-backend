@@ -118,6 +118,20 @@ class TourPackageApiController extends Controller
     {
 
 
+        $tours = TourPackage::where('featured', true)->latest()->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $tours
+        ]);
+    }
+    /**
+     * Get popular tour packages
+     */
+    public function popular(Request $request): JsonResponse
+    {
+
+
         $tours = TourPackage::latest()->take(8)->get();
 
         return response()->json([

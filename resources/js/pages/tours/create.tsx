@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
@@ -34,6 +35,7 @@ export default function TourCreate() {
         duration: '',
         location: '',
         image: null as File | null,
+        featured: false,
         highlights: [''],
         itinerary: [{ day: 1, time: '', activity: '' }],
         included: [''],
@@ -107,6 +109,7 @@ export default function TourCreate() {
         formData.append('price', data.price);
         formData.append('duration', data.duration);
         formData.append('location', data.location);
+        formData.append('featured', data.featured ? '1' : '0');
 
         // Add image if present
         if (data.image) {
@@ -315,6 +318,22 @@ export default function TourCreate() {
                                         className={errors.location ? 'border-destructive' : ''}
                                     />
                                     {errors.location && <p className="text-sm text-destructive">{errors.location}</p>}
+                                </div>
+
+                                {/* Featured */}
+                                <div className="space-y-2">
+                                    <div className="flex items-center space-x-2">
+                                        <Checkbox
+                                            id="featured"
+                                            checked={data.featured}
+                                            onCheckedChange={(checked) => setData('featured', checked as boolean)}
+                                        />
+                                        <Label htmlFor="featured" className="!mb-0">
+                                            Featured Tour
+                                        </Label>
+                                    </div>
+                                    <p className="text-sm text-muted-foreground">Mark this tour as featured to highlight it on the homepage</p>
+                                    {errors.featured && <p className="text-sm text-destructive">{errors.featured}</p>}
                                 </div>
 
                                 {/* Image */}
