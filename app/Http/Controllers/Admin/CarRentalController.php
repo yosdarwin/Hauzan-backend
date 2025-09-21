@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CarRental;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class CarRentalController extends Controller
@@ -32,21 +33,28 @@ class CarRentalController extends Controller
             'duration' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'description' => 'required|string',
-            'features' => 'required|array',
-            'features.*' => 'required|string',
+            'features' => 'array',
+            'features.*' => 'string',
             'full_description' => 'required|string',
-            'specifications' => 'required|array',
-            'features_detail' => 'required|array',
-            'features_detail.*' => 'required|string',
-            'included' => 'required|array',
-            'included.*' => 'required|string',
-            'terms' => 'required|array',
-            'terms.*' => 'required|string',
-            'pricing' => 'required|array',
-            'pricing.*.duration' => 'required|string',
-            'pricing.*.price' => 'required|string',
-            'pricing.*.note' => 'required|string',
+            'specifications' => 'array',
+            'features_detail' => 'array',
+            'features_detail.*' => 'string',
+            'included' => 'array',
+            'included.*' => 'string',
+            'terms' => 'array',
+            'terms.*' => 'string',
+            'pricing' => 'array',
+            'pricing.*.duration' => 'string',
+            'pricing.*.price' => 'string',
+            'pricing.*.note' => 'string',
         ]);
+
+        // Generate slug from title if not provided, or format user input
+        if (empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['title']);
+        } else {
+            $validated['slug'] = Str::slug($validated['slug']);
+        }
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('cars', 'public');
@@ -76,27 +84,34 @@ class CarRentalController extends Controller
     public function update(Request $request, CarRental $car)
     {
         $validated = $request->validate([
-            'slug' => 'nullable|string|unique:car_rentals,slug,' . $car->id . '|max:255',
+            'slug' => 'string|unique:car_rentals,slug,' . $car->id . '|max:255',
             'title' => 'required|string|max:255',
             'price' => 'required|string|max:255',
             'duration' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'description' => 'required|string',
-            'features' => 'required|array',
-            'features.*' => 'required|string',
-            'full_description' => 'required|string',
-            'specifications' => 'required|array',
-            'features_detail' => 'required|array',
-            'features_detail.*' => 'required|string',
-            'included' => 'required|array',
-            'included.*' => 'required|string',
-            'terms' => 'required|array',
-            'terms.*' => 'required|string',
-            'pricing' => 'required|array',
-            'pricing.*.duration' => 'required|string',
-            'pricing.*.price' => 'required|string',
-            'pricing.*.note' => 'required|string',
+            'features' => 'array',
+            'features.*' => 'string',
+            'full_description' => 'string',
+            'specifications' => 'array',
+            'features_detail' => 'array',
+            'features_detail.*' => 'string',
+            'included' => 'array',
+            'included.*' => 'string',
+            'terms' => 'array',
+            'terms.*' => 'string',
+            'pricing' => 'array',
+            'pricing.*.duration' => 'string',
+            'pricing.*.price' => 'string',
+            'pricing.*.note' => 'string',
         ]);
+
+        // Generate slug from title if not provided, or format user input
+        if (empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['title']);
+        } else {
+            $validated['slug'] = Str::slug($validated['slug']);
+        }
 
         if ($request->hasFile('image')) {
             // Delete old image

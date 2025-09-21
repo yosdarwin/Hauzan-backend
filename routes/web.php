@@ -112,6 +112,10 @@ Route::prefix('api')->group(function () {
         return CarRental::active()->get();
     });
 
+    Route::get('cars/featured', function () {
+        return CarRental::active()->latest()->take(3)->get();
+    });
+
     Route::get('cars/{slug}', function ($slug) {
         return CarRental::where('slug', $slug)->where('is_active', true)->firstOrFail();
     });
