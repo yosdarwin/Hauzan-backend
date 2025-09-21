@@ -64,12 +64,38 @@ class AppSetting extends Model
     }
 
     /**
+     * Get section title, subtitle, and description
+     */
+    public static function getSectionWithDescription(string $sectionName)
+    {
+        $title = static::get("section.{$sectionName}.title");
+        $subtitle = static::get("section.{$sectionName}.subtitle");
+        $description = static::get("section.{$sectionName}.description");
+        
+        return [
+            'title' => $title,
+            'subtitle' => $subtitle,
+            'description' => $description
+        ];
+    }
+
+    /**
      * Set section title and subtitle
      */
     public static function setSection(string $sectionName, string $title, string $subtitle)
     {
         static::set("section.{$sectionName}.title", $title, 'text', ucfirst(str_replace('_', ' ', $sectionName)) . ' section title');
         static::set("section.{$sectionName}.subtitle", $subtitle, 'text', ucfirst(str_replace('_', ' ', $sectionName)) . ' section subtitle');
+    }
+
+    /**
+     * Set section title, subtitle, and description
+     */
+    public static function setSectionWithDescription(string $sectionName, string $title, string $subtitle, string $description)
+    {
+        static::set("section.{$sectionName}.title", $title, 'text', ucfirst(str_replace('_', ' ', $sectionName)) . ' section title');
+        static::set("section.{$sectionName}.subtitle", $subtitle, 'text', ucfirst(str_replace('_', ' ', $sectionName)) . ' section subtitle');
+        static::set("section.{$sectionName}.description", $description, 'text', ucfirst(str_replace('_', ' ', $sectionName)) . ' section description');
     }
 
     /**
@@ -84,7 +110,7 @@ class AppSetting extends Model
             $keyParts = explode('.', $setting->key);
             if (count($keyParts) >= 3) {
                 $sectionName = $keyParts[1];
-                $type = $keyParts[2]; // title or subtitle
+                $type = $keyParts[2]; // title, subtitle, or description
                 
                 if (!isset($sections[$sectionName])) {
                     $sections[$sectionName] = [];
@@ -105,6 +131,7 @@ class AppSetting extends Model
         return [
             'popular_destinations' => 'Popular Destinations',
             'featured_tour_package' => 'Featured Tour Package',
+            'tour_packages' => 'Tour Packages',
             'car_rent' => 'Car Rent',
             'testimonial' => 'Testimonial'
         ];

@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\SouvenirController;
 use App\Http\Controllers\Admin\AppSettingsController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SectionSettingsController;
+use App\Http\Controllers\Admin\TourPackageHeaderController;
 use App\Http\Controllers\Api\TourPackageApiController;
 use App\Models\AboutContent;
 use App\Models\Slider;
@@ -85,6 +86,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Section Settings
     Route::get('settings/sections', [SectionSettingsController::class, 'index'])->name('section-settings.index');
     Route::post('settings/sections', [SectionSettingsController::class, 'update'])->name('section-settings.update');
+
+    // Tour Packages Header Settings
+    Route::get('tours/header', [TourPackageHeaderController::class, 'show'])->name('tours.header.show');
+    Route::put('tours/header', [TourPackageHeaderController::class, 'update'])->name('tours.header.update');
 });
 
 // API Routes for React App
@@ -123,12 +128,8 @@ Route::prefix('api')->group(function () {
     Route::get('app-settings', [AppSettingsController::class, 'apiIndex']);
     Route::get('app-settings/logo', [AppSettingsController::class, 'apiLogo']);
 
-    // App Settings API
-    Route::get('admin-settings', [AdminController::class, 'apiIndex']);
-
-    // Section Settings API
-    Route::get('sections', [SectionSettingsController::class, 'apiIndex']);
-    Route::get('sections/{section}', [SectionSettingsController::class, 'apiShow']);
+    // Tour Packages Header API
+    Route::get('tours/header', [TourPackageHeaderController::class, 'apiIndex']);
 });
 
 require __DIR__ . '/settings.php';

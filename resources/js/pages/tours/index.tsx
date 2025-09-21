@@ -1,6 +1,7 @@
+import PaginationWrapper from '@/components/pagination-wrapper';
+import TourPackageHeaderForm from '@/components/TourPackageHeaderForm';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import PaginationWrapper from '@/components/pagination-wrapper';
 import AppLayout from '@/layouts/app-layout';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem } from '@/types';
@@ -67,6 +68,9 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Tour Packages" />
             <div className="flex h-full flex-1 flex-col gap-6 overflow-x-auto rounded-xl p-6">
+                {/* Header Settings Form */}
+                <TourPackageHeaderForm />
+
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div>
@@ -110,7 +114,9 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
                                                     currency: 'IDR',
                                                     minimumFractionDigits: 0,
                                                     maximumFractionDigits: 0,
-                                                }).format(Number(tour.price)).replace('Rp', 'Rp.')}
+                                                })
+                                                    .format(Number(tour.price))
+                                                    .replace('Rp', 'Rp.')}
                                             </span>
                                         </div>
                                         <div className="flex flex-col gap-2 xl:flex-row">
@@ -142,7 +148,7 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
                                 </Card>
                             ))}
                         </div>
-                        
+
                         {/* Pagination */}
                         <PaginationWrapper data={tours} className="mt-8" />
                     </>

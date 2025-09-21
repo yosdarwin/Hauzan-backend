@@ -8,6 +8,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import { ArrowLeft, Plus, X } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
+import { toast } from 'sonner';
 
 interface CarRental {
     id: number;
@@ -280,7 +281,7 @@ export default function CarEdit({ car }: CarEditProps) {
                     })
                     .join('\n');
 
-                alert(`Validation errors:\n${errorMessages}`);
+                toast.error(`Validation errors:\n${errorMessages}`);
             },
         });
     };

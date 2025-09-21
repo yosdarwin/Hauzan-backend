@@ -60,7 +60,7 @@ class TourPackageApiController extends Controller
         }
 
         // Pagination
-        $perPage = $request->get('per_page', 12);
+        $perPage = $request->get('per_page', 9);
         $perPage = min($perPage, 50); // Limit to 50 items per page
 
         $tours = $query->paginate($perPage);

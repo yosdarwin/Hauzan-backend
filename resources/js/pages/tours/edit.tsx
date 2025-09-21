@@ -6,6 +6,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import { ArrowLeft, Plus, Save, X } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
+import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -123,7 +124,7 @@ export default function TourEdit({ tour }: TourEditProps) {
         const missingFields = requiredFields.filter((field) => !submissionData[field] || (submissionData[field] as string).trim() === '');
 
         if (missingFields.length > 0) {
-            alert(`Please fill in all required fields: ${missingFields.join(', ')}`);
+            toast.error(`Please fill in all required fields: ${missingFields.join(', ')}`);
             return;
         }
 
@@ -173,7 +174,7 @@ export default function TourEdit({ tour }: TourEditProps) {
                         })
                         .join('\n');
 
-                    alert(`Validation errors:\n${errorMessages}`);
+                    toast.error(`Validation errors:\n${errorMessages}`);
                 },
             });
         } else {
@@ -187,7 +188,7 @@ export default function TourEdit({ tour }: TourEditProps) {
                         })
                         .join('\n');
 
-                    alert(`Validation errors:\n${errorMessages}`);
+                    toast.error(`Validation errors:\n${errorMessages}`);
                 },
             });
         }

@@ -3,12 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import { ArrowLeft, Star, Upload, X } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
+import { toast } from 'sonner';
 
 interface Testimonial {
     id: number;
@@ -103,15 +104,15 @@ export default function TestimonialEdit({ testimonial }: TestimonialEditProps) {
                     })
                     .join('\n');
 
-                alert(`Validation errors:\n${errorMessages}`);
+                toast.error(`Validation errors:\n${errorMessages}`);
             },
         });
     };
 
     const renderStars = (rating: number) => {
         return Array.from({ length: 5 }, (_, i) => (
-            <Star 
-                key={i} 
+            <Star
+                key={i}
                 className={`h-5 w-5 cursor-pointer ${i < rating ? 'fill-current text-yellow-400' : 'text-gray-300'}`}
                 onClick={() => setData('rating', i + 1)}
             />
@@ -176,8 +177,6 @@ export default function TestimonialEdit({ testimonial }: TestimonialEditProps) {
                                     </div>
                                 </div>
 
-
-
                                 <div>
                                     <Label htmlFor="review">Review *</Label>
                                     <Textarea
@@ -193,7 +192,7 @@ export default function TestimonialEdit({ testimonial }: TestimonialEditProps) {
 
                                 <div>
                                     <Label>Rating *</Label>
-                                    <div className="flex items-center gap-1 mt-2">
+                                    <div className="mt-2 flex items-center gap-1">
                                         {renderStars(data.rating)}
                                         <span className="ml-2 text-sm text-muted-foreground">({data.rating}/5)</span>
                                     </div>
@@ -214,11 +213,7 @@ export default function TestimonialEdit({ testimonial }: TestimonialEditProps) {
                                 <div className="space-y-4">
                                     {imagePreview ? (
                                         <div className="relative">
-                                            <img
-                                                src={imagePreview}
-                                                alt="Preview"
-                                                className="h-32 w-32 rounded-full object-cover mx-auto"
-                                            />
+                                            <img src={imagePreview} alt="Preview" className="mx-auto h-32 w-32 rounded-full object-cover" />
                                             <Button
                                                 type="button"
                                                 variant="destructive"
@@ -234,9 +229,9 @@ export default function TestimonialEdit({ testimonial }: TestimonialEditProps) {
                                             <img
                                                 src={`/storage/${testimonial.photo}`}
                                                 alt="Current photo"
-                                                className="h-32 w-32 rounded-full object-cover mx-auto"
+                                                className="mx-auto h-32 w-32 rounded-full object-cover"
                                             />
-                                            <p className="text-center text-sm text-muted-foreground mt-2">Current photo</p>
+                                            <p className="mt-2 text-center text-sm text-muted-foreground">Current photo</p>
                                         </div>
                                     ) : (
                                         <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25 p-6">
@@ -255,9 +250,7 @@ export default function TestimonialEdit({ testimonial }: TestimonialEditProps) {
                                         />
                                         {errors.photo && <p className="text-sm text-red-500">{errors.photo}</p>}
                                         {testimonial.photo && !imagePreview && (
-                                            <p className="text-xs text-muted-foreground mt-1">
-                                                Choose a new file to replace the current photo
-                                            </p>
+                                            <p className="mt-1 text-xs text-muted-foreground">Choose a new file to replace the current photo</p>
                                         )}
                                     </div>
                                 </div>

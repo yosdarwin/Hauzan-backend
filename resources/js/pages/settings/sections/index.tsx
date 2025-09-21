@@ -1,4 +1,3 @@
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -6,8 +5,8 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { Head, useForm } from '@inertiajs/react';
-import { CheckCircle, Save, Settings } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Save, Settings } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface Section {
     title: string;
@@ -28,8 +27,6 @@ export default function SectionSettings({ sections, availableSections }: Props) 
         sections: sections,
     });
 
-    const [showSuccess, setShowSuccess] = useState(false);
-
     const handleSectionChange = (sectionKey: string, field: 'title' | 'subtitle', value: string) => {
         const updatedSections = {
             ...data.sections,
@@ -47,20 +44,10 @@ export default function SectionSettings({ sections, availableSections }: Props) 
         post('/settings/sections', {
             preserveScroll: true,
             onSuccess: () => {
-                setShowSuccess(true);
+                toast.success('Section settings have been saved successfully!');
             },
         });
     };
-
-    useEffect(() => {
-        if (showSuccess) {
-            const timer = setTimeout(() => {
-                setShowSuccess(false);
-            }, 5000); // Hide after 5 seconds
-
-            return () => clearTimeout(timer);
-        }
-    }, [showSuccess]);
 
     const breadcrumbs = [
         { label: 'Dashboard', href: '/dashboard' },
@@ -140,18 +127,7 @@ export default function SectionSettings({ sections, availableSections }: Props) 
                     </div>
 
                     {/* Submit Button */}
-                    {/* Success Message */}
                     <div className="flex flex-col items-end gap-6">
-                        {showSuccess && (
-                            <Alert className="border-green-600 bg-green-200">
-                                <AlertDescription>
-                                    <div className="flex items-center gap-4">
-                                        <CheckCircle size={25} color="green" />
-                                        <span className="text-base text-green-800">Section settings have been saved successfully!</span>
-                                    </div>
-                                </AlertDescription>
-                            </Alert>
-                        )}
                         <Button type="submit" disabled={processing} className="min-w-[120px]">
                             {processing ? (
                                 <>
