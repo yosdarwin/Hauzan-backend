@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\SouvenirController;
 use App\Http\Controllers\Admin\AppSettingsController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SectionSettingsController;
+use App\Http\Controllers\Api\TourPackageApiController;
 use App\Models\AboutContent;
 use App\Models\Slider;
 use App\Models\TourPackage;
@@ -96,13 +97,11 @@ Route::prefix('api')->group(function () {
         return AboutContent::first();
     });
 
-    Route::get('tours', function () {
-        return TourPackage::all();
-    });
+    // Enhanced Tour Package API Routes
+    Route::get('tours', [TourPackageApiController::class, 'index']);
+    Route::get('tour/{slug}', [TourPackageApiController::class, 'show']);
+    Route::get('tours/featured', [TourPackageApiController::class, 'featured']);
 
-    Route::get('tours/{slug}', function ($slug) {
-        return TourPackage::where('slug', $slug)->firstOrFail();
-    });
 
     Route::get('cars', function () {
         return CarRental::active()->get();

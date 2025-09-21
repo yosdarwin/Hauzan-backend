@@ -5,7 +5,7 @@ import { Switch } from '@/components/ui/switch';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Edit, Eye, MessageCircle, Plus, Trash2, Users } from 'lucide-react';
+import { Edit, Eye, Plus, Trash2, Users } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -112,14 +112,7 @@ export default function AdminIndex({ admins }: AdminIndexProps) {
                                                 <span className="text-sm text-gray-500">Status:</span>
                                                 <Switch checked={admin.status_online} onCheckedChange={() => toggleStatus(admin)} />
                                             </div>
-                                            <a
-                                                href={admin.whatsapp_url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-green-600 hover:text-green-800"
-                                            >
-                                                <MessageCircle className="h-4 w-4" />
-                                            </a>
+
                                             <Link href={`/settings/admins/${admin.id}`}>
                                                 <Button variant="outline" size="sm">
                                                     <Eye className="h-4 w-4" />

@@ -44,10 +44,10 @@ class AppSettingsController extends Controller
         );
 
         // Update WhatsApp number setting
-        if (isset($validated['whatsapp_number'])) {
+        if (array_key_exists('whatsapp_number', $validated)) {
             AppSetting::set(
                 'whatsapp_number',
-                $validated['whatsapp_number'],
+                $validated['whatsapp_number'] ?? '',
                 'text',
                 'WhatsApp number for customer orders'
             );
