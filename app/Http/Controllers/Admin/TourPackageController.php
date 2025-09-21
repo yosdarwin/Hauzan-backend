@@ -13,7 +13,7 @@ class TourPackageController extends Controller
 {
     public function index()
     {
-        $tours = TourPackage::latest()->get();
+        $tours = TourPackage::latest()->paginate(9);
         return Inertia::render('tours/index', [
             'tours' => $tours
         ]);
