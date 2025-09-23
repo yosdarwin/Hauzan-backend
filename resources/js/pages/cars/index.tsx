@@ -1,4 +1,5 @@
 import CarRentalHeaderForm from '@/components/CarRentalHeaderForm';
+import PaginationWrapper from '@/components/pagination-wrapper';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
@@ -31,8 +32,28 @@ interface CarRental {
     updated_at: string;
 }
 
+interface PaginatedCars {
+    current_page: number;
+    data: CarRental[];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: Array<{
+        url: string | null;
+        label: string;
+        active: boolean;
+    }>;
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+}
+
 interface CarsIndexProps {
-    cars: CarRental[];
+    cars: PaginatedCars;
 }
 
 export default function CarsIndex({ cars }: CarsIndexProps) {
@@ -40,6 +61,13 @@ export default function CarsIndex({ cars }: CarsIndexProps) {
         if (confirm('Are you sure you want to delete this car rental?')) {
             router.delete(`/cars/${slug}`);
         }
+    };
+
+    const handlePageChange = (page: number) => {
+        router.get('/cars', { page }, {
+            preserveState: true,
+            preserveScroll: true
+        });
     };
 
     return (
@@ -68,9 +96,9 @@ export default function CarsIndex({ cars }: CarsIndexProps) {
                 </div>
 
                 {/* Cars Grid */}
-                {cars && cars.length > 0 ? (
+                {cars.data && cars.data.length > 0 ? (
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {cars.map((car) => (
+                        {cars.data.map((car) => (
                             <Card key={car.id} className="overflow-hidden">
                                 <div className="relative -mt-6 aspect-video overflow-hidden">
                                     {car.image ? (
@@ -139,6 +167,13 @@ export default function CarsIndex({ cars }: CarsIndexProps) {
                         </Link>
                     </Card>
                 )}
+
+                {/* Pagination */}
+                <PaginationWrapper
+                    data={cars}
+                    onPageChange={handlePageChange}
+                    className="mt-8"
+                />
             </div>
         </AppLayout>
     );

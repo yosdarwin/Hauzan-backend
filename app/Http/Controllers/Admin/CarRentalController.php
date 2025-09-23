@@ -13,7 +13,7 @@ class CarRentalController extends Controller
 {
     public function index()
     {
-        $cars = CarRental::latest()->get();
+        $cars = CarRental::latest()->paginate(9);
         return Inertia::render('cars/index', [
             'cars' => $cars
         ]);

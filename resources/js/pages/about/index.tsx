@@ -36,6 +36,7 @@ interface AboutIndexProps {
 }
 
 export default function AboutIndex({ about }: AboutIndexProps) {
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="About Page Management" />
