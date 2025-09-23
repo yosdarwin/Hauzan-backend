@@ -6,9 +6,14 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Car Rentals</h2>
-    <a href="{{ route('cars.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus"></i> Add New Car
-    </a>
+    <div class="d-flex gap-2">
+        <a href="{{ route('cars.header.show') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-gear"></i> Header Settings
+        </a>
+        <a href="{{ route('cars.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus"></i> Add New Car
+        </a>
+    </div>
 </div>
 
 <div class="card">
@@ -23,7 +28,6 @@
                             <th>Price</th>
                             <th>Duration</th>
                             <th>Featured</th>
-                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -46,13 +50,6 @@
                                     <span class="badge bg-warning">Featured</span>
                                 @else
                                     <span class="badge bg-light text-dark">Regular</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if($car->is_active)
-                                    <span class="badge bg-success">Active</span>
-                                @else
-                                    <span class="badge bg-secondary">Inactive</span>
                                 @endif
                             </td>
                             <td>

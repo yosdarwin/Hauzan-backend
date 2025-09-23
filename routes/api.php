@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SectionSettingsController;
 use App\Http\Controllers\Admin\TourPackageHeaderController;
+use App\Http\Controllers\Admin\CarRentalHeaderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +27,7 @@ Route::get('sections/{section}', [SectionSettingsController::class, 'apiShow']);
 // Tour Packages Header API
 Route::get('tours/header', [TourPackageHeaderController::class, 'show']);
 Route::put('tours/header', [TourPackageHeaderController::class, 'update']);
+
+// Car Rentals Header API
+Route::get('cars/header', [CarRentalHeaderController::class, 'apiIndex']);
+Route::put('cars/header', [CarRentalHeaderController::class, 'update']);

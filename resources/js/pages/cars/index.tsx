@@ -1,10 +1,11 @@
+import CarRentalHeaderForm from '@/components/CarRentalHeaderForm';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Car, Edit, Eye, Plus, Trash2 } from 'lucide-react';
+import { Car, Edit, Eye, Plus, Settings, Trash2 } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -26,7 +27,6 @@ interface CarRental {
     duration: string;
     image: string;
     featured: boolean;
-    is_active: boolean;
     created_at: string;
     updated_at: string;
 }
@@ -46,16 +46,25 @@ export default function CarsIndex({ cars }: CarsIndexProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Car Rentals" />
             <div className="flex h-full flex-1 flex-col gap-6 overflow-x-auto rounded-xl p-6">
+                {/* Header Settings Form */}
+                <CarRentalHeaderForm />
+
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-3xl font-bold">Car Rentals</h1>
                         <p className="text-muted-foreground">Manage your car rental fleet</p>
                     </div>
-                    <Link href="/cars/create" className={cn(buttonVariants())}>
-                        <Plus className="mr-2 h-4 w-4" />
-                        Add New Car
-                    </Link>
+                    <div className="flex gap-2">
+                        <Link href="/cars/header" className={cn(buttonVariants({ variant: 'outline' }))}>
+                            <Settings className="mr-2 h-4 w-4" />
+                            Header Settings
+                        </Link>
+                        <Link href="/cars/create" className={cn(buttonVariants())}>
+                            <Plus className="mr-2 h-4 w-4" />
+                            Add New Car
+                        </Link>
+                    </div>
                 </div>
 
                 {/* Cars Grid */}

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\AppSettingsController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SectionSettingsController;
 use App\Http\Controllers\Admin\TourPackageHeaderController;
+use App\Http\Controllers\Admin\CarRentalHeaderController;
 use App\Http\Controllers\Api\TourPackageApiController;
 use App\Models\AboutContent;
 use App\Models\Slider;
@@ -90,6 +91,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Tour Packages Header Settings
     Route::get('tours/header', [TourPackageHeaderController::class, 'show'])->name('tours.header.show');
     Route::put('tours/header', [TourPackageHeaderController::class, 'update'])->name('tours.header.update');
+
+    // Car Rentals Header Settings
+    Route::get('cars/header', [CarRentalHeaderController::class, 'show'])->name('cars.header.show');
+    Route::get('cars/header/settings', [CarRentalHeaderController::class, 'getSettings'])->name('cars.header.settings');
+    Route::put('cars/header', [CarRentalHeaderController::class, 'update'])->name('cars.header.update');
 });
 
 // API Routes for React App
@@ -110,15 +116,15 @@ Route::prefix('api')->group(function () {
 
 
     Route::get('cars', function () {
-        return CarRental::active()->get();
+        return CarRental::latest()->paginate(9);
     });
 
     Route::get('cars/featured', function () {
-        return CarRental::active()->latest()->take(3)->get();
+        return CarRental::latest()->take(3)->get();
     });
 
     Route::get('cars/{slug}', function ($slug) {
-        return CarRental::where('slug', $slug)->where('is_active', true)->firstOrFail();
+        return CarRental::where('slug', $slug)->firstOrFail();
     });
 
     Route::get('testimonials', function () {
@@ -135,6 +141,7 @@ Route::prefix('api')->group(function () {
 
     // Tour Packages Header API
     Route::get('tours/header', [TourPackageHeaderController::class, 'apiIndex']);
+
 });
 
 require __DIR__ . '/settings.php';

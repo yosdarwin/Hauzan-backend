@@ -25,12 +25,10 @@ class CarRental extends Model
         'included',
         'terms',
         'pricing',
-        'is_active',
     ];
 
     protected $casts = [
         'featured' => 'boolean',
-        'is_active' => 'boolean',
         'features' => 'array',
         'specifications' => 'array',
         'features_detail' => 'array',
@@ -39,10 +37,10 @@ class CarRental extends Model
         'pricing' => 'array',
     ];
 
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', true);
-    }
+    protected $hidden = [
+        'is_active',
+    ];
+
 
     public function scopeFeatured($query)
     {
