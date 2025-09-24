@@ -3,7 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { ArrowLeft, Edit, Star, Trash2 } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Edit, Images, Star, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -38,6 +39,7 @@ interface Tour {
     }>;
     included: string[];
     not_included: string[];
+    visited_tours_images?: Array<{ image: string; description: string }> | string[];
     created_at: string;
     updated_at: string;
 }
@@ -47,10 +49,28 @@ interface TourShowProps {
 }
 
 export default function TourShow({ tour }: TourShowProps) {
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
     const handleDelete = () => {
         if (confirm('Are you sure you want to delete this tour package?')) {
             router.delete(`/tours/${tour.slug}`);
         }
+    };
+
+    const nextImage = () => {
+        if (tour.visited_tours_images && tour.visited_tours_images.length > 0) {
+            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % tour.visited_tours_images!.length);
+        }
+    };
+
+    const previousImage = () => {
+        if (tour.visited_tours_images && tour.visited_tours_images.length > 0) {
+            setCurrentImageIndex((prevIndex) => (prevIndex - 1 + tour.visited_tours_images!.length) % tour.visited_tours_images!.length);
+        }
+    };
+
+    const goToImage = (index: number) => {
+        setCurrentImageIndex(index);
     };
 
     return (
@@ -186,6 +206,104 @@ export default function TourShow({ tour }: TourShowProps) {
                                             </li>
                                         ))}
                                     </ul>
+                                </CardContent>
+                            </Card>
+                        )}
+
+                        {/* Visited Tours Images Slider */}
+                        {tour.visited_tours_images && Array.isArray(tour.visited_tours_images) && tour.visited_tours_images.length > 0 && (
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2">
+                                        <Images className="h-5 w-5" />
+                                        Visited Tours Gallery
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="relative">
+                                        {/* Main Image Display */}
+                                        <div className="relative aspect-video overflow-hidden rounded-lg">
+                                            {(() => {
+                                                const currentImage = tour.visited_tours_images[currentImageIndex];
+                                                const isLegacyFormat = typeof currentImage === 'string';
+                                                const imagePath = isLegacyFormat ? currentImage : currentImage.image;
+                                                const description = isLegacyFormat ? '' : currentImage.description;
+
+                                                return (
+                                                    <>
+                                                        <img
+                                                            src={`/storage/${imagePath}`}
+                                                            alt={description || `Visited tour ${currentImageIndex + 1}`}
+                                                            className="h-full w-full object-cover transition-all duration-300"
+                                                        />
+                                                        {/* Image Description Overlay */}
+                                                        {description && (
+                                                            <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-4 text-white">
+                                                                <p className="text-sm">{description}</p>
+                                                            </div>
+                                                        )}
+                                                    </>
+                                                );
+                                            })()}
+
+                                            {/* Navigation Arrows */}
+                                            {tour.visited_tours_images.length > 1 && (
+                                                <>
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white"
+                                                        onClick={previousImage}
+                                                    >
+                                                        <ChevronLeft className="h-4 w-4" />
+                                                    </Button>
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white"
+                                                        onClick={nextImage}
+                                                    >
+                                                        <ChevronRight className="h-4 w-4" />
+                                                    </Button>
+                                                </>
+                                            )}
+
+                                            {/* Image Counter */}
+                                            <div className="absolute top-2 right-2 rounded bg-black/60 px-2 py-1 text-sm text-white">
+                                                {currentImageIndex + 1} / {tour.visited_tours_images.length}
+                                            </div>
+                                        </div>
+
+                                        {/* Thumbnail Navigation */}
+                                        {tour.visited_tours_images.length > 1 && (
+                                            <div className="mt-4 flex gap-2 overflow-x-auto">
+                                                {tour.visited_tours_images.map((imageData, index) => {
+                                                    const isLegacyFormat = typeof imageData === 'string';
+                                                    const imagePath = isLegacyFormat ? imageData : imageData.image;
+                                                    const description = isLegacyFormat ? '' : imageData.description;
+
+                                                    return (
+                                                        <button
+                                                            key={index}
+                                                            className={`flex-shrink-0 overflow-hidden rounded border-2 transition-all ${
+                                                                index === currentImageIndex
+                                                                    ? 'border-primary ring-2 ring-primary ring-offset-2'
+                                                                    : 'border-gray-200 hover:border-primary/50'
+                                                            }`}
+                                                            onClick={() => goToImage(index)}
+                                                            title={description || `Image ${index + 1}`}
+                                                        >
+                                                            <img
+                                                                src={`/storage/${imagePath}`}
+                                                                alt={description || `Thumbnail ${index + 1}`}
+                                                                className="h-16 w-20 object-cover"
+                                                            />
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
+                                    </div>
                                 </CardContent>
                             </Card>
                         )}

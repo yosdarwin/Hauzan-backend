@@ -24,6 +24,7 @@ class TourPackage extends Model
         'itinerary',
         'included',
         'not_included',
+        'visited_tours_images',
     ];
 
     protected $casts = [
@@ -32,6 +33,7 @@ class TourPackage extends Model
         'itinerary' => 'array',
         'included' => 'array',
         'not_included' => 'array',
+        'visited_tours_images' => 'array',
     ];
 
     public function scopeFeatured($query)

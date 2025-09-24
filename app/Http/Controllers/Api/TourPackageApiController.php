@@ -10,6 +10,42 @@ use Illuminate\Http\JsonResponse;
 class TourPackageApiController extends Controller
 {
     /**
+     * Transform tour data to include proper image formatting with descriptions
+     */
+    private function transformTourData($tour)
+    {
+        $tourData = is_array($tour) ? $tour : $tour->toArray();
+
+        // Format visited_tours_images with descriptions
+        if (isset($tourData['visited_tours_images']) && is_array($tourData['visited_tours_images'])) {
+            $tourData['visited_tours_images'] = array_map(function ($imageData) {
+                if (is_string($imageData)) {
+                    return [
+                        'image' => $imageData,
+                        'image_url' => asset('storage/' . $imageData),
+                        'description' => ''
+                    ];
+                } elseif (is_array($imageData)) {
+                    return [
+                        'image' => $imageData['image'] ?? '',
+                        'image_url' => isset($imageData['image']) ? asset('storage/' . $imageData['image']) : null,
+                        'description' => $imageData['description'] ?? ''
+                    ];
+                }
+                return $imageData;
+            }, $tourData['visited_tours_images']);
+        } else {
+            $tourData['visited_tours_images'] = [];
+        }
+
+        // Add main image URL
+        if (!empty($tourData['image'])) {
+            $tourData['image_url'] = asset('storage/' . $tourData['image']);
+        }
+
+        return $tourData;
+    }
+    /**
      * Get all tour packages with pagination and filtering
      */
     public function index(Request $request): JsonResponse
@@ -65,9 +101,12 @@ class TourPackageApiController extends Controller
 
         $tours = $query->paginate($perPage);
 
+        // Transform tour data to include proper image formatting
+        $transformedTours = array_map([$this, 'transformTourData'], $tours->items());
+
         return response()->json([
             'success' => true,
-            'data' => $tours->items(),
+            'data' => $transformedTours,
             'pagination' => [
                 'current_page' => $tours->currentPage(),
                 'last_page' => $tours->lastPage(),
@@ -107,7 +146,7 @@ class TourPackageApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $tour
+            'data' => $this->transformTourData($tour)
         ]);
     }
 
@@ -116,13 +155,12 @@ class TourPackageApiController extends Controller
      */
     public function featured(Request $request): JsonResponse
     {
-
-
         $tours = TourPackage::where('featured', true)->latest()->get();
+        $transformedTours = array_map([$this, 'transformTourData'], $tours->toArray());
 
         return response()->json([
             'success' => true,
-            'data' => $tours
+            'data' => $transformedTours
         ]);
     }
     /**
@@ -130,13 +168,12 @@ class TourPackageApiController extends Controller
      */
     public function popular(Request $request): JsonResponse
     {
-
-
         $tours = TourPackage::latest()->take(8)->get();
+        $transformedTours = array_map([$this, 'transformTourData'], $tours->toArray());
 
         return response()->json([
             'success' => true,
-            'data' => $tours
+            'data' => $transformedTours
         ]);
     }
 
@@ -148,10 +185,11 @@ class TourPackageApiController extends Controller
         $tours = TourPackage::where('location', 'like', "%{$location}%")
             ->latest()
             ->get();
+        $transformedTours = array_map([$this, 'transformTourData'], $tours->toArray());
 
         return response()->json([
             'success' => true,
-            'data' => $tours,
+            'data' => $transformedTours,
             'location' => $location
         ]);
     }
@@ -200,12 +238,13 @@ class TourPackageApiController extends Controller
         }
 
         $tours = $query->latest()->get();
+        $transformedTours = array_map([$this, 'transformTourData'], $tours->toArray());
 
         return response()->json([
             'success' => true,
-            'data' => $tours,
+            'data' => $transformedTours,
             'query' => $request->q,
-            'count' => $tours->count()
+            'count' => count($transformedTours)
         ]);
     }
 

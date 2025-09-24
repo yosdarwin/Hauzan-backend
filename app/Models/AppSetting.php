@@ -99,6 +99,32 @@ class AppSetting extends Model
     }
 
     /**
+     * Get welcome section with video URL
+     */
+    public static function getWelcomeSection()
+    {
+        $title = static::get("section.welcome.title");
+        $subtitle = static::get("section.welcome.subtitle");
+        $videoUrl = static::get("section.welcome.video_url");
+
+        return [
+            'title' => $title,
+            'subtitle' => $subtitle,
+            'video_url' => $videoUrl
+        ];
+    }
+
+    /**
+     * Set welcome section with video URL
+     */
+    public static function setWelcomeSection(string $title, string $subtitle, string $videoUrl)
+    {
+        static::set("section.welcome.title", $title, 'text', 'Welcome section title');
+        static::set("section.welcome.subtitle", $subtitle, 'text', 'Welcome section subtitle');
+        static::set("section.welcome.video_url", $videoUrl, 'url', 'Welcome section video URL');
+    }
+
+    /**
      * Get all section settings grouped by section
      */
     public static function getAllSections()

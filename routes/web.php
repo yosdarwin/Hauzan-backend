@@ -57,6 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Tour Packages CRUD
     Route::resource('tours', TourPackageController::class);
+    Route::delete('tours/{tour}/visited-images', [TourPackageController::class, 'removeVisitedImage'])->name('tours.remove-visited-image');
 
     // Car Rentals CRUD
     Route::resource('cars', CarRentalController::class);
@@ -87,6 +88,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Section Settings
     Route::get('settings/sections', [SectionSettingsController::class, 'index'])->name('section-settings.index');
     Route::post('settings/sections', [SectionSettingsController::class, 'update'])->name('section-settings.update');
+
+    // Welcome Section Settings
+    Route::get('settings/sections/welcome', [SectionSettingsController::class, 'welcomeShow'])->name('section-settings.welcome.show');
+    Route::put('settings/sections/welcome', [SectionSettingsController::class, 'welcomeUpdate'])->name('section-settings.welcome.update');
 
     // Tour Packages Header Settings
     Route::get('tours/header', [TourPackageHeaderController::class, 'show'])->name('tours.header.show');
@@ -143,6 +148,9 @@ Route::prefix('api')->group(function () {
 
     // Tour Packages Header API
     Route::get('tours/header', [TourPackageHeaderController::class, 'apiIndex']);
+
+    // Welcome Section API
+    Route::get('welcome-section', [SectionSettingsController::class, 'apiWelcomeSection']);
 
 });
 

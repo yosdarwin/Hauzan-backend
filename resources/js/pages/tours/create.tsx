@@ -4,6 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
+import VisitedImageManager, { type VisitedImage } from '@/components/VisitedImageManager';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import { ArrowLeft, Save, X } from 'lucide-react';
@@ -40,6 +41,7 @@ export default function TourCreate() {
         itinerary: [{ day: 1, time: '', activity: '' }],
         included: [''],
         not_included: [''],
+        visited_tours_images: [] as VisitedImage[],
     });
 
     const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
@@ -141,6 +143,25 @@ export default function TourCreate() {
             formData.append(`itinerary[${index}][activity]`, item.activity);
         });
 
+        // Add visited tours images
+        const visitedImagesData = data.visited_tours_images.map((imageObj, index) => ({
+            image: `new_${index}`,
+            description: imageObj.description,
+            is_new: true
+        }));
+
+        // Send the structure as JSON
+        if (visitedImagesData.length > 0) {
+            formData.append('visited_tours_images_data', JSON.stringify(visitedImagesData));
+
+            // Send image files
+            data.visited_tours_images.forEach((imageObj, index) => {
+                if (imageObj.image instanceof File) {
+                    formData.append(`visited_tours_images[${index}][image]`, imageObj.image);
+                }
+            });
+        }
+
         router.post('/tours', formData, {
             onError: (errors: Record<string, string | string[]>) => {
                 // Show specific validation errors to user
@@ -224,6 +245,7 @@ export default function TourCreate() {
         newItinerary[index] = { ...newItinerary[index], [field]: value };
         setData('itinerary', newItinerary);
     };
+
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -524,6 +546,19 @@ export default function TourCreate() {
                                     Add Activity
                                 </Button>
                             </div>
+
+                            {/* Visited Tours Images */}
+                            <VisitedImageManager
+                                images={data.visited_tours_images}
+                                onImagesChange={(images) => setData('visited_tours_images', images)}
+                                disabled={processing}
+                            />
+                            {errors.visited_tours_images && <p className="text-sm text-destructive">{errors.visited_tours_images}</p>}
+
+                            <p className="text-sm text-muted-foreground">
+                                Upload multiple images to showcase the destinations visited during the tour. These will be displayed as an image slider.
+                                Supported formats: JPEG, PNG, JPG, GIF, WebP (max 2MB each)
+                            </p>
 
                             {/* Submit Button */}
                             <div className="flex justify-end gap-4">

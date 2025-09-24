@@ -3,10 +3,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
+import VisitedImageManager, { type VisitedImage } from '@/components/VisitedImageManager';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router, useForm } from '@inertiajs/react';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import { ArrowLeft, Plus, Save, X } from 'lucide-react';
-import { FormEventHandler, useState } from 'react';
+import { FormEventHandler, useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -43,6 +44,7 @@ interface Tour {
     }>;
     included: string[];
     not_included: string[];
+    visited_tours_images?: Array<{ image: string; description: string }> | string[];
 }
 
 interface TourEditProps {
@@ -51,6 +53,18 @@ interface TourEditProps {
 
 export default function TourEdit({ tour }: TourEditProps) {
     const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
+    const [visitedToursImagePreviews, setVisitedToursImagePreviews] = useState<string[]>([]);
+    const { props } = usePage<{ flash: { success?: string; error?: string } }>();
+
+    // Handle flash messages
+    useEffect(() => {
+        if (props.flash?.success) {
+            toast.success(props.flash.success);
+        }
+        if (props.flash?.error) {
+            toast.error(props.flash.error);
+        }
+    }, [props.flash]);
 
     const { data, setData, processing, errors } = useForm({
         title: tour.title || '',
@@ -67,7 +81,52 @@ export default function TourEdit({ tour }: TourEditProps) {
         included: Array.isArray(tour.included) && tour.included.length > 0 ? tour.included.filter((i) => i && i.trim() !== '') : [''],
         not_included:
             Array.isArray(tour.not_included) && tour.not_included.length > 0 ? tour.not_included.filter((ni) => ni && ni.trim() !== '') : [''],
+        visited_tours_images: (() => {
+            // Initialize visited tours images immediately
+            if (tour.visited_tours_images && Array.isArray(tour.visited_tours_images)) {
+                return tour.visited_tours_images.map((imageData, index) => {
+                    const isLegacyFormat = typeof imageData === 'string';
+                    return {
+                        id: `existing-${index}`,
+                        image: isLegacyFormat ? imageData : imageData.image,
+                        description: isLegacyFormat ? '' : imageData.description,
+                    };
+                });
+            }
+            return [];
+        })() as VisitedImage[],
     });
+
+    // Track which existing images were removed for cleanup
+    const [removedImages, setRemovedImages] = useState<string[]>([]);
+
+    // Re-initialize images when tour data changes (after successful form submission)
+    useEffect(() => {
+        if (tour.visited_tours_images && Array.isArray(tour.visited_tours_images)) {
+            const currentImagePaths = data.visited_tours_images.map(img =>
+                typeof img.image === 'string' ? img.image : 'new'
+            );
+            const tourImagePaths = tour.visited_tours_images.map(img =>
+                typeof img === 'string' ? img : img.image
+            );
+
+            // Only reinitialize if the tour data has different images than our form state
+            const isDifferent = JSON.stringify(currentImagePaths.sort()) !== JSON.stringify(tourImagePaths.sort());
+
+            if (isDifferent) {
+                const existingImages: VisitedImage[] = tour.visited_tours_images.map((imageData, index) => {
+                    const isLegacyFormat = typeof imageData === 'string';
+                    return {
+                        id: `existing-${index}-${Date.now()}`,
+                        image: isLegacyFormat ? imageData : imageData.image,
+                        description: isLegacyFormat ? '' : imageData.description,
+                    };
+                });
+                setData('visited_tours_images', existingImages);
+                setRemovedImages([]); // Reset removed images tracking
+            }
+        }
+    }, [tour.visited_tours_images]);
 
     const generateSlugFromTitle = (title: string) => {
         if (title) {
@@ -121,6 +180,7 @@ export default function TourEdit({ tour }: TourEditProps) {
             included: data.included.filter((item) => item && item.trim() !== ''),
             not_included: data.not_included.filter((item) => item && item.trim() !== ''),
             itinerary: data.itinerary.filter((item) => (item.activity && item.activity.trim() !== '') || (item.time && item.time.trim() !== '')),
+            visited_tours_images: data.visited_tours_images,
         };
 
         // Validate that all required fields have values
@@ -133,16 +193,40 @@ export default function TourEdit({ tour }: TourEditProps) {
         }
 
         // Use POST with _method=PUT for file uploads, or PUT for regular updates
-        if (data.image) {
+        if (data.image || data.visited_tours_images.length > 0) {
             const formData = new FormData();
 
             // Add the image file first
-            formData.append('image', data.image);
+            if (data.image) {
+                formData.append('image', data.image);
+            }
 
-            // Add all other fields to FormData (excluding image since we already added it)
+            // Handle visited tours images with complete state
+            const visitedImagesData = data.visited_tours_images.map((imageObj, index) => ({
+                image: typeof imageObj.image === 'string' ? imageObj.image : `new_${index}`,
+                description: imageObj.description,
+                is_new: imageObj.image instanceof File
+            }));
+
+            // Send the structure as JSON
+            formData.append('visited_tours_images_data', JSON.stringify(visitedImagesData));
+
+            // Send removed images for cleanup
+            if (removedImages.length > 0) {
+                formData.append('removed_images', JSON.stringify(removedImages));
+            }
+
+            // Send new image files separately
+            data.visited_tours_images.forEach((imageObj, index) => {
+                if (imageObj.image instanceof File) {
+                    formData.append(`visited_tours_images[${index}][image]`, imageObj.image);
+                }
+            });
+
+            // Add all other fields to FormData (excluding image and visited_tours_images since we already added them)
             Object.entries(submissionData).forEach(([key, value]) => {
-                if (key === 'image') {
-                    // Skip image as we already added it above
+                if (key === 'image' || key === 'visited_tours_images') {
+                    // Skip as we already added these above
                     return;
                 } else if (key === 'highlights' || key === 'included' || key === 'not_included') {
                     // Handle arrays
@@ -172,6 +256,18 @@ export default function TourEdit({ tour }: TourEditProps) {
             formData.append('_method', 'PUT');
 
             router.post(`/tours/${tour.slug}`, formData, {
+                onSuccess: () => {
+                    // Reset image fields after successful update
+                    setData('image', null);
+                    setData('visited_tours_images', []);
+                    setVisitedToursImagePreviews([]);
+
+                    // Reset file inputs
+                    const imageInput = document.getElementById('image') as HTMLInputElement;
+                    const visitedImagesInput = document.getElementById('visited_tours_images') as HTMLInputElement;
+                    if (imageInput) imageInput.value = '';
+                    if (visitedImagesInput) visitedImagesInput.value = '';
+                },
                 onError: (errors: Record<string, string | string[]>) => {
                     // Show specific validation errors to user
                     const errorMessages = Object.entries(errors)
@@ -186,6 +282,10 @@ export default function TourEdit({ tour }: TourEditProps) {
             });
         } else {
             router.put(`/tours/${tour.slug}`, submissionData, {
+                onSuccess: () => {
+                    // Reset image fields after successful update (only if no files were involved)
+                    // For PUT requests without files, no image fields need resetting
+                },
                 onError: (errors: Record<string, string | string[]>) => {
                     // Show specific validation errors to user
                     const errorMessages = Object.entries(errors)
@@ -261,6 +361,7 @@ export default function TourEdit({ tour }: TourEditProps) {
         newNotIncluded[index] = value;
         setData('not_included', newNotIncluded);
     };
+
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -571,6 +672,26 @@ export default function TourEdit({ tour }: TourEditProps) {
                                 <Plus className="mr-2 h-4 w-4" />
                                 Add Activity
                             </Button>
+                        </div>
+
+                        {/* Visited Tours Images */}
+                        <div className="space-y-4">
+                            <VisitedImageManager
+                                images={data.visited_tours_images}
+                                onImagesChange={(images, removed) => {
+                                    setData('visited_tours_images', images);
+                                    if (removed && removed.length > 0) {
+                                        setRemovedImages(prev => [...prev, ...removed]);
+                                    }
+                                }}
+                                disabled={processing}
+                            />
+                            {errors.visited_tours_images && <p className="text-sm text-destructive">{errors.visited_tours_images}</p>}
+
+                            <p className="text-sm text-muted-foreground">
+                                Upload multiple images to showcase the destinations visited during the tour. These will be displayed as an image slider.
+                                Supported formats: JPEG, PNG, JPG, GIF, WebP (max 2MB each)
+                            </p>
                         </div>
                     </div>
 
