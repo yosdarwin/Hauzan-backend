@@ -512,7 +512,7 @@ export default function CarEdit({ car }: CarEditProps) {
                         {/* Terms & Conditions */}
                         <Card>
                             <CardHeader>
-                                <CardTitle>Terms & Conditions</CardTitle>
+                                <CardTitle>Not Included</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 {data.terms.map((term, index) => (

@@ -188,7 +188,7 @@ export default function CarShow({ car }: CarShowProps) {
                         {car.terms && car.terms.length > 0 && (
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Terms & Conditions</CardTitle>
+                                    <CardTitle>Not Included</CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-2">
