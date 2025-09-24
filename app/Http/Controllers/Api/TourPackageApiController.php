@@ -208,4 +208,15 @@ class TourPackageApiController extends Controller
             'count' => $tours->count()
         ]);
     }
+
+    public function footer()
+    {
+        $footerTour = TourPackage::latest()->take(4)->select('title', 'slug')->get();
+        
+
+        return response()->json([
+            'success' => true,
+            'data' => $footerTour
+        ]);
+    }
 }

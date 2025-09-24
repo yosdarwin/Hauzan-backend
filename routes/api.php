@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SectionSettingsController;
 use App\Http\Controllers\Admin\TourPackageHeaderController;
 use App\Http\Controllers\Admin\CarRentalHeaderController;
+use App\Http\Controllers\Admin\SouvenirHeaderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,3 +32,7 @@ Route::put('tours/header', [TourPackageHeaderController::class, 'update']);
 // Car Rentals Header API
 Route::get('cars/header', [CarRentalHeaderController::class, 'apiIndex']);
 Route::put('cars/header', [CarRentalHeaderController::class, 'update']);
+
+// Souvenirs Header API
+Route::get('souvenirs/header', [SouvenirHeaderController::class, 'show']);
+Route::put('souvenirs/header', [SouvenirHeaderController::class, 'update']);

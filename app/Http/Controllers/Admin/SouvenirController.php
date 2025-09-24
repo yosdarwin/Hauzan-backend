@@ -12,7 +12,7 @@ class SouvenirController extends Controller
 {
     public function index()
     {
-        $souvenirs = Souvenir::all();
+        $souvenirs = Souvenir::latest()->paginate(9);
         return Inertia::render('souvenirs/index', [
             'souvenirs' => $souvenirs
         ]);

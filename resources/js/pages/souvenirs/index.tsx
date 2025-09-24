@@ -1,3 +1,5 @@
+import PaginationWrapper from '@/components/pagination-wrapper';
+import SouvenirHeaderForm from '@/components/SouvenirHeaderForm';
 import { Badge } from '@/components/ui/badge';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,8 +30,28 @@ interface Souvenir {
     updated_at: string;
 }
 
+interface PaginatedSouvenirs {
+    current_page: number;
+    data: Souvenir[];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: Array<{
+        url: string | null;
+        label: string;
+        active: boolean;
+    }>;
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+}
+
 interface SouvenirsIndexProps {
-    souvenirs: Souvenir[];
+    souvenirs: PaginatedSouvenirs;
 }
 
 export default function SouvenirsIndex({ souvenirs }: SouvenirsIndexProps) {
@@ -52,6 +74,9 @@ export default function SouvenirsIndex({ souvenirs }: SouvenirsIndexProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Souvenirs" />
             <div className="flex h-full flex-1 flex-col gap-6 overflow-x-auto rounded-xl p-6">
+                {/* Header Settings Form */}
+                <SouvenirHeaderForm />
+
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div>
@@ -65,9 +90,10 @@ export default function SouvenirsIndex({ souvenirs }: SouvenirsIndexProps) {
                 </div>
 
                 {/* Souvenirs Grid */}
-                {souvenirs && souvenirs.length > 0 ? (
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {souvenirs.map((souvenir) => (
+                {souvenirs.data && souvenirs.data.length > 0 ? (
+                    <>
+                        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                            {souvenirs.data.map((souvenir) => (
                             <Card key={souvenir.id} className="overflow-hidden">
                                 <CardHeader className="p-0">
                                     <div className="aspect-video w-full overflow-hidden bg-muted">
@@ -114,8 +140,12 @@ export default function SouvenirsIndex({ souvenirs }: SouvenirsIndexProps) {
                                     </div>
                                 </CardContent>
                             </Card>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+
+                        {/* Pagination */}
+                        <PaginationWrapper data={souvenirs} className="mt-8" />
+                    </>
                 ) : (
                     <Card className="flex flex-col items-center justify-center py-16">
                         <Gift className="mb-4 h-16 w-16 text-muted-foreground" />

@@ -113,6 +113,8 @@ Route::prefix('api')->group(function () {
     Route::get('tour/{slug}', [TourPackageApiController::class, 'show']);
     Route::get('tours/popular', [TourPackageApiController::class, 'popular']);
     Route::get('tours/featured', [TourPackageApiController::class, 'featured']);
+    Route::get('tours/footer', [TourPackageApiController::class, 'footer']);
+
 
 
     Route::get('cars', function () {
@@ -132,7 +134,7 @@ Route::prefix('api')->group(function () {
     });
 
     Route::get('souvenirs', function () {
-        return Souvenir::all();
+        return Souvenir::latest()->paginate(9);
     });
 
     // App Settings API
