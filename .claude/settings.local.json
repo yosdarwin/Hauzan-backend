@@ -5,7 +5,10 @@
       "Bash(find:*)",
       "Bash(php artisan:*)",
       "Bash(curl:*)",
-      "Bash(php:*)"
+      "Bash(php:*)",
+      "Bash(composer:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)"
     ],
     "deny": []
   }

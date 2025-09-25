@@ -12,6 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Ensure app_settings table exists before proceeding
+        if (!Schema::hasTable('app_settings')) {
+            return;
+        }
+
         // Add section settings to app_settings table
         $sections = [
             // Popular Destinations Section
@@ -88,7 +93,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Remove section settings
-        AppSetting::where('key', 'LIKE', 'section.%')->delete();
+        // Remove section settings only if table exists
+        if (Schema::hasTable('app_settings')) {
+            AppSetting::where('key', 'LIKE', 'section.%')->delete();
+        }
     }
 };

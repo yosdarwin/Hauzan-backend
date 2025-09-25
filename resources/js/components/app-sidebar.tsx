@@ -3,8 +3,8 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
-import { Car, Grid2x2, Images, Info, LayoutGrid, MapPin, MessageSquareQuote, Settings, ShoppingBag } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import { Car, Grid2x2, Images, Info, LayoutGrid, MapPin, MessageSquareQuote, Settings, ShoppingBag, Users } from 'lucide-react';
 
 // Core features and main functionality
 const featuredNavItems: NavItem[] = [
@@ -27,6 +27,11 @@ const featuredNavItems: NavItem[] = [
         title: 'Settings',
         href: '/settings/app',
         icon: Settings,
+    },
+    {
+        title: 'User Management',
+        href: '/admin/users',
+        icon: Users,
     },
 ];
 
@@ -61,6 +66,21 @@ const pageNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const { props } = usePage();
+    const user = (props as any).auth?.user;
+
+    // Check if user has super-admin role
+    const isSuperAdmin = user?.roles?.some((role: any) => role.name === 'super-admin') || false;
+
+    // Filter featured nav items based on user role
+    const filteredFeaturedNavItems = featuredNavItems.filter((item) => {
+        // Only show User Management to super-admin users
+        if (item.title === 'User Management') {
+            return isSuperAdmin;
+        }
+        return true;
+    });
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -76,7 +96,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={featuredNavItems} pages={pageNavItems} />
+                <NavMain items={filteredFeaturedNavItems} pages={pageNavItems} />
             </SidebarContent>
 
             <SidebarFooter>
