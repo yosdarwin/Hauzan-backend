@@ -14,7 +14,6 @@ interface CarRental {
     id: number;
     title: string;
     slug: string;
-    description: string;
     full_description: string;
     price: string;
     duration: string;
@@ -55,7 +54,6 @@ export default function CarEdit({ car }: CarEditProps) {
     const { data, setData, processing, errors } = useForm({
         title: car.title || '',
         slug: car.slug || '',
-        description: car.description || '',
         full_description: car.full_description || '',
         price: car.price || '',
         duration: car.duration || '',
@@ -368,18 +366,6 @@ export default function CarEdit({ car }: CarEditProps) {
                                         />
                                         {errors.duration && <p className="mt-1 text-sm text-red-500">{errors.duration}</p>}
                                     </div>
-                                </div>
-                                <div>
-                                    <Label htmlFor="description">Short Description *</Label>
-                                    <Textarea
-                                        id="description"
-                                        value={data.description}
-                                        onChange={(e) => setData('description', e.target.value)}
-                                        placeholder="Brief description of the car"
-                                        className={errors.description ? 'border-red-500' : ''}
-                                        rows={3}
-                                    />
-                                    {errors.description && <p className="mt-1 text-sm text-red-500">{errors.description}</p>}
                                 </div>
                                 <div>
                                     <Label htmlFor="full_description">Full Description *</Label>

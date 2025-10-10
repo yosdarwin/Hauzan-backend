@@ -16,7 +16,6 @@ class CarRental extends Model
         'price',
         'duration',
         'image',
-        'description',
         'features',
         'featured',
         'full_description',

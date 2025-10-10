@@ -48,7 +48,7 @@ export default function TourPackageHeaderForm() {
         };
 
         fetchHeaderData();
-    }, []);
+    }, [setData]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

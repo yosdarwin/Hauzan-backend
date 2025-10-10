@@ -16,20 +16,18 @@ class TourPackageApiController extends Controller
     {
         $tourData = is_array($tour) ? $tour : $tour->toArray();
 
-        // Format visited_tours_images with descriptions
+        // Format visited_tours_images (drop per-image description)
         if (isset($tourData['visited_tours_images']) && is_array($tourData['visited_tours_images'])) {
             $tourData['visited_tours_images'] = array_map(function ($imageData) {
                 if (is_string($imageData)) {
                     return [
                         'image' => $imageData,
                         'image_url' => asset('storage/' . $imageData),
-                        'description' => ''
                     ];
                 } elseif (is_array($imageData)) {
                     return [
                         'image' => $imageData['image'] ?? '',
                         'image_url' => isset($imageData['image']) ? asset('storage/' . $imageData['image']) : null,
-                        'description' => $imageData['description'] ?? ''
                     ];
                 }
                 return $imageData;
@@ -57,7 +55,6 @@ class TourPackageApiController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%")
                     ->orWhere('location', 'like', "%{$search}%");
             });
         }
@@ -229,7 +226,6 @@ class TourPackageApiController extends Controller
             $searchTerm = $request->q;
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('title', 'like', "%{$searchTerm}%")
-                    ->orWhere('description', 'like', "%{$searchTerm}%")
                     ->orWhere('full_description', 'like', "%{$searchTerm}%")
                     ->orWhere('location', 'like', "%{$searchTerm}%")
                     ->orWhereJsonContains('highlights', $searchTerm)

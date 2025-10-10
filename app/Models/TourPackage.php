@@ -17,7 +17,6 @@ class TourPackage extends Model
         'duration',
         'location',
         'image',
-        'description',
         'featured',
         'full_description',
         'highlights',

@@ -29,7 +29,6 @@ class TourPackageController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|unique:tour_packages,slug|max:255',
-            'description' => 'required|string',
             'full_description' => 'required|string',
             'price' => 'required|string|max:255',
             'duration' => 'required|string|max:255',
@@ -128,7 +127,6 @@ class TourPackageController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|unique:tour_packages,slug,' . $tour->id . '|max:255',
-            'description' => 'required|string',
             'full_description' => 'required|string',
             'price' => 'required|string|max:255',
             'duration' => 'required|string|max:255',

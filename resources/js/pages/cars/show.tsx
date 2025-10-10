@@ -10,7 +10,6 @@ interface CarRental {
     id: number;
     title: string;
     slug: string;
-    description: string;
     full_description: string;
     price: number;
     duration: string;
@@ -58,7 +57,7 @@ export default function CarShow({ car }: CarShowProps) {
                             <div className="mb-2 flex items-center gap-2">
                                 <h1 className="text-3xl font-bold">{car.title}</h1>
                             </div>
-                            <p className="text-muted-foreground">{car.description}</p>
+                            {/* Short description removed */}
                         </div>
                     </div>
                     <div className="flex gap-2">

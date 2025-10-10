@@ -32,7 +32,6 @@ export default function CarCreate() {
     const { data, setData, processing, errors } = useForm({
         title: '',
         slug: '',
-        description: '',
         full_description: '',
         price: '',
         duration: '',
@@ -344,18 +343,6 @@ export default function CarCreate() {
                                         />
                                         {errors.duration && <p className="mt-1 text-sm text-red-500">{errors.duration}</p>}
                                     </div>
-                                </div>
-                                <div>
-                                    <Label htmlFor="description">Short Description *</Label>
-                                    <Textarea
-                                        id="description"
-                                        value={data.description}
-                                        onChange={(e) => setData('description', e.target.value)}
-                                        placeholder="Brief description of the car"
-                                        className={errors.description ? 'border-red-500' : ''}
-                                        rows={3}
-                                    />
-                                    {errors.description && <p className="mt-1 text-sm text-red-500">{errors.description}</p>}
                                 </div>
                                 <div>
                                     <Label htmlFor="full_description">Full Description *</Label>

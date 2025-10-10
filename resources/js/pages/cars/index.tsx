@@ -6,7 +6,7 @@ import AppLayout from '@/layouts/app-layout';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Car, Edit, Eye, Plus, Settings, Trash2 } from 'lucide-react';
+import { Car, Edit, Eye, Plus, Trash2 } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -23,7 +23,6 @@ interface CarRental {
     id: number;
     title: string;
     slug: string;
-    description: string;
     price: string;
     duration: string;
     image: string;
@@ -63,13 +62,6 @@ export default function CarsIndex({ cars }: CarsIndexProps) {
         }
     };
 
-    const handlePageChange = (page: number) => {
-        router.get('/cars', { page }, {
-            preserveState: true,
-            preserveScroll: true
-        });
-    };
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Car Rentals" />
@@ -84,10 +76,6 @@ export default function CarsIndex({ cars }: CarsIndexProps) {
                         <p className="text-muted-foreground">Manage your car rental fleet</p>
                     </div>
                     <div className="flex gap-2">
-                        <Link href="/cars/header" className={cn(buttonVariants({ variant: 'outline' }))}>
-                            <Settings className="mr-2 h-4 w-4" />
-                            Header Settings
-                        </Link>
                         <Link href="/cars/create" className={cn(buttonVariants())}>
                             <Plus className="mr-2 h-4 w-4" />
                             Add New Car
@@ -111,7 +99,7 @@ export default function CarsIndex({ cars }: CarsIndexProps) {
                                 </div>
                                 <CardHeader>
                                     <CardTitle className="line-clamp-1">{car.title}</CardTitle>
-                                    <CardDescription className="line-clamp-2">{car.description}</CardDescription>
+                                    {/* Short description removed */}
                                 </CardHeader>
                                 <CardContent>
                                     <div className="mb-4 grid grid-cols-2 gap-2 text-sm text-muted-foreground">
@@ -124,7 +112,9 @@ export default function CarsIndex({ cars }: CarsIndexProps) {
                                                 currency: 'IDR',
                                                 minimumFractionDigits: 0,
                                                 maximumFractionDigits: 0,
-                                            }).format(Number(car.price)).replace('Rp', 'Rp.')}
+                                            })
+                                                .format(Number(car.price))
+                                                .replace('Rp', 'Rp.')}
                                         </span>
                                     </div>
                                     <div className="flex flex-col gap-2 xl:flex-row">
@@ -169,11 +159,7 @@ export default function CarsIndex({ cars }: CarsIndexProps) {
                 )}
 
                 {/* Pagination */}
-                <PaginationWrapper
-                    data={cars}
-                    onPageChange={handlePageChange}
-                    className="mt-8"
-                />
+                <PaginationWrapper data={cars} className="mt-8" />
             </div>
         </AppLayout>
     );

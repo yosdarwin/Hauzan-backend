@@ -29,7 +29,6 @@ interface Tour {
     id: number;
     title: string;
     slug: string;
-    description: string;
     full_description: string;
     price: string;
     duration: string;
@@ -52,8 +51,22 @@ interface TourEditProps {
 }
 
 export default function TourEdit({ tour }: TourEditProps) {
+    type TourFormData = {
+        title: string;
+        slug: string;
+        full_description: string;
+        price: string;
+        duration: string;
+        location: string;
+        image: File | null;
+        featured: boolean;
+        highlights: string[];
+        itinerary: Array<{ day: number; time: string; activity: string }>;
+        included: string[];
+        not_included: string[];
+        visited_tours_images: VisitedImage[];
+    };
     const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
-    const [visitedToursImagePreviews, setVisitedToursImagePreviews] = useState<string[]>([]);
     const { props } = usePage<{ flash: { success?: string; error?: string } }>();
 
     // Handle flash messages
@@ -66,15 +79,14 @@ export default function TourEdit({ tour }: TourEditProps) {
         }
     }, [props.flash]);
 
-    const { data, setData, processing, errors } = useForm({
+    const { data, setData, processing, errors } = useForm<TourFormData>({
         title: tour.title || '',
         slug: tour.slug || '',
-        description: tour.description || '',
         full_description: tour.full_description || '',
         price: tour.price || '',
         duration: tour.duration || '',
         location: tour.location || '',
-        image: null as File | null,
+        image: null,
         featured: tour.featured || false,
         highlights: Array.isArray(tour.highlights) && tour.highlights.length > 0 ? tour.highlights.filter((h) => h && h.trim() !== '') : [''],
         itinerary: Array.isArray(tour.itinerary) && tour.itinerary.length > 0 ? tour.itinerary : [{ day: 1, time: '', activity: '' }],
@@ -94,7 +106,7 @@ export default function TourEdit({ tour }: TourEditProps) {
                 });
             }
             return [];
-        })() as VisitedImage[],
+        })(),
     });
 
     // Track which existing images were removed for cleanup
@@ -126,7 +138,7 @@ export default function TourEdit({ tour }: TourEditProps) {
                 setRemovedImages([]); // Reset removed images tracking
             }
         }
-    }, [tour.visited_tours_images]);
+    }, [tour.visited_tours_images, data.visited_tours_images, setData]);
 
     const generateSlugFromTitle = (title: string) => {
         if (title) {
@@ -169,7 +181,6 @@ export default function TourEdit({ tour }: TourEditProps) {
         const submissionData = {
             title: data.title && data.title.trim() !== '' ? data.title : tour.title,
             slug: data.slug && data.slug.trim() !== '' ? data.slug : tour.slug,
-            description: data.description && data.description.trim() !== '' ? data.description : tour.description,
             full_description: data.full_description && data.full_description.trim() !== '' ? data.full_description : tour.full_description,
             price: data.price && data.price.trim() !== '' ? data.price : tour.price,
             duration: data.duration && data.duration.trim() !== '' ? data.duration : tour.duration,
@@ -180,11 +191,10 @@ export default function TourEdit({ tour }: TourEditProps) {
             included: data.included.filter((item) => item && item.trim() !== ''),
             not_included: data.not_included.filter((item) => item && item.trim() !== ''),
             itinerary: data.itinerary.filter((item) => (item.activity && item.activity.trim() !== '') || (item.time && item.time.trim() !== '')),
-            visited_tours_images: data.visited_tours_images,
         };
 
         // Validate that all required fields have values
-        const requiredFields: (keyof typeof submissionData)[] = ['title', 'description', 'full_description', 'price', 'duration', 'location'];
+        const requiredFields: (keyof typeof submissionData)[] = ['title', 'full_description', 'price', 'duration', 'location'];
         const missingFields = requiredFields.filter((field) => !submissionData[field] || (submissionData[field] as string).trim() === '');
 
         if (missingFields.length > 0) {
@@ -259,8 +269,7 @@ export default function TourEdit({ tour }: TourEditProps) {
                 onSuccess: () => {
                     // Reset image fields after successful update
                     setData('image', null);
-                    setData('visited_tours_images', []);
-                    setVisitedToursImagePreviews([]);
+                    setData('visited_tours_images', [] as VisitedImage[]);
 
                     // Reset file inputs
                     const imageInput = document.getElementById('image') as HTMLInputElement;
@@ -326,9 +335,21 @@ export default function TourEdit({ tour }: TourEditProps) {
         setData('itinerary', newItinerary);
     };
 
-    const updateItineraryItem = (index: number, field: string, value: string | number) => {
+    const updateItineraryItem = (
+        index: number,
+        field: 'day' | 'time' | 'activity',
+        value: string | number
+    ) => {
         const newItinerary = [...data.itinerary];
-        newItinerary[index] = { ...newItinerary[index], [field]: value };
+        const item = { ...newItinerary[index] };
+        if (field === 'day') {
+            item.day = typeof value === 'number' ? value : parseInt(value as string) || 1;
+        } else if (field === 'time') {
+            item.time = String(value);
+        } else {
+            item.activity = String(value);
+        }
+        newItinerary[index] = item;
         setData('itinerary', newItinerary);
     };
 
@@ -513,19 +534,6 @@ export default function TourEdit({ tour }: TourEditProps) {
                         {/* Descriptions */}
                         <div className="space-y-4">
                             <h3 className="text-lg font-semibold">Descriptions</h3>
-
-                            {/* Short Description */}
-                            <div className="space-y-2">
-                                <Label htmlFor="description">Short Description *</Label>
-                                <textarea
-                                    id="description"
-                                    value={data.description}
-                                    onChange={(e) => setData('description', e.target.value)}
-                                    placeholder="Brief description for tour cards and previews..."
-                                    className={`min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 ${errors.description ? 'border-destructive' : ''}`}
-                                />
-                                {errors.description && <p className="text-sm text-destructive">{errors.description}</p>}
-                            </div>
 
                             {/* Full Description */}
                             <div className="space-y-2">

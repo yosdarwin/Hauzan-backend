@@ -25,7 +25,6 @@ interface Tour {
     id: number;
     title: string;
     slug: string;
-    description: string;
     full_description: string;
     price: number;
     duration: string;
@@ -39,7 +38,7 @@ interface Tour {
     }>;
     included: string[];
     not_included: string[];
-    visited_tours_images?: Array<{ image: string; description: string }> | string[];
+    visited_tours_images?: Array<{ image: string; description?: string }> | string[];
     created_at: string;
     updated_at: string;
 }
@@ -120,7 +119,6 @@ export default function TourShow({ tour }: TourShowProps) {
                                 </div>
                                 <div className="p-6">
                                     <h2 className="mb-2 text-xl font-semibold">About This Tour</h2>
-                                    <p className="mb-4 text-muted-foreground">{tour.description}</p>
                                     <div className="prose max-w-none">
                                         <div className="whitespace-pre-wrap">{tour.full_description}</div>
                                     </div>

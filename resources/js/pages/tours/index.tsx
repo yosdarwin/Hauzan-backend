@@ -24,7 +24,6 @@ interface Tour {
     id: number;
     title: string;
     slug: string;
-    description: string;
     full_description: string;
     price: number;
     duration: string;
@@ -109,7 +108,6 @@ export default function ToursIndex({ tours }: ToursIndexProps) {
                                     </div>
                                     <CardHeader>
                                         <CardTitle className="line-clamp-1">{tour.title}</CardTitle>
-                                        <CardDescription className="line-clamp-2">{tour.description}</CardDescription>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="mb-4 flex items-center justify-between text-sm text-muted-foreground">
