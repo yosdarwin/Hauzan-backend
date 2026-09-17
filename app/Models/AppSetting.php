@@ -29,7 +29,7 @@ class AppSetting extends Model
     /**
      * Set a setting value by key
      */
-    public static function set(string $key, $value, string $type = 'text', string $description = null)
+    public static function set(string $key, mixed $value, string $type = 'text', string $description = null)
     {
         return static::updateOrCreate(
             ['key' => $key],
@@ -56,7 +56,7 @@ class AppSetting extends Model
     {
         $title = static::get("section.{$sectionName}.title");
         $subtitle = static::get("section.{$sectionName}.subtitle");
-        
+
         return [
             'title' => $title,
             'subtitle' => $subtitle
@@ -71,7 +71,7 @@ class AppSetting extends Model
         $title = static::get("section.{$sectionName}.title");
         $subtitle = static::get("section.{$sectionName}.subtitle");
         $description = static::get("section.{$sectionName}.description");
-        
+
         return [
             'title' => $title,
             'subtitle' => $subtitle,
@@ -129,7 +129,7 @@ class AppSetting extends Model
      */
     public static function getAllSections()
     {
-        $settings = static::where('key', 'LIKE', 'section.%')->get();
+        $settings = static::query()->where('key', 'LIKE', 'section.%')->get();
         $sections = [];
 
         foreach ($settings as $setting) {
@@ -137,11 +137,11 @@ class AppSetting extends Model
             if (count($keyParts) >= 3) {
                 $sectionName = $keyParts[1];
                 $type = $keyParts[2]; // title, subtitle, or description
-                
+
                 if (!isset($sections[$sectionName])) {
                     $sections[$sectionName] = [];
                 }
-                
+
                 $sections[$sectionName][$type] = $setting->value;
             }
         }
